@@ -8,6 +8,7 @@ import { initDAL } from './DAL';
 import DarkThemeProvider from './providers/DarkThemeProvider';
 import { createStore } from './store';
 import './index.css';
+import 'react-grid-layout/css/styles.css';
 
 const httpClientAxios = axios.create({ baseURL: 'http://localhost:8000', withCredentials: true });
 

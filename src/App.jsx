@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout/index';
 
 const HomePage = lazy(() => import('./pages/Home'));
+const SingleDashboardPage = lazy(() => import('./pages/DashboardsPage/SingleDashboardPage'));
 const ReduxExamplePage = lazy(() => import('./pages/ReduxExample'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 
@@ -14,6 +15,7 @@ function App() {
           <Route path='/index.html' element={<HomePage />} />
           <Route path='/' element={<HomePage />} />
           <Route path='/redux' element={<ReduxExamplePage />} />
+          <Route path='/dashboards/:id' element={<SingleDashboardPage />} />
           {/* <Route path='/list' element={<ListPage />} /> */}
           {/* <Route path='/list/:id' element={<SinlgeItemPage />} /> */}
 

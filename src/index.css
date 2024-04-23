@@ -91,6 +91,8 @@
 /* @layer components {} */
 
 @layer utilities {
+  .do-not-drag-me {}
+
   .no-scrollbar {
     /* IE and Edge */
     -ms-overflow-style: none;

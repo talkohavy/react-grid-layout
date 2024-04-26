@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { BREAKPOINT_SIZES, GRID_COLUMN_COUNT, GRID_ROW_HEIGHT, MARGIN_BETWEEN_WIDGETS } from './constants';
-import GridLinesOverlay from './GridLinesOverlay';
+import { BREAKPOINT_SIZES, GAP_FROM_WALLS, GRID_COLUMN_COUNT, GRID_ROW_HEIGHT } from './constants';
+import DashboardGrid from './DashboardGrid';
 import DashboardWidget from './Widget/DashboardWidget';
+import './dashboards.css';
 
 /**
  * @typedef {import('./types').Widget} Widget
@@ -18,21 +19,33 @@ export default function Dashboard({ data, className }) {
   const onResizeOrDragStart = () => setIsShowGridLines(true);
   const onResizeOrDragStop = () => setIsShowGridLines(false);
 
+  // eslint-disable-next-line
+  const dashboardSettings = useMemo(() => {
+    // getSettings()
+    // eslint-disable-next-line
+    const a = 1;
+    return {
+      grid: {
+        show: true,
+        color: 'black',
+      },
+    };
+  }, []);
+
   return (
     <div
-      className={clsx('w-full overflow-auto rounded-lg border bg-gray-50 p-2 dark:bg-slate-900', className)}
-      style={{ direction: 'ltr' }}
+      className={clsx('w-full overflow-auto rounded-lg border bg-gray-50 dark:bg-slate-900', className)}
+      style={{ direction: 'ltr', padding: GAP_FROM_WALLS }}
     >
       <div className='relative'>
-        {isShowGridLines && (
-          <GridLinesOverlay colsNumber={GRID_COLUMN_COUNT} margin={MARGIN_BETWEEN_WIDGETS} color='#999' />
-        )}
+        {isShowGridLines && <DashboardGrid color='black' />}
+
         <ResponsiveGridLayout
           autoSize // If true, the container height swells and contracts to fit contents.
           layouts={{ lg: data }}
           breakpoints={{ lg: BREAKPOINT_SIZES.lg }}
           cols={{ lg: GRID_COLUMN_COUNT }} // <--- defaults to 12. Number of columns in this layout.
-          margin={{ lg: [MARGIN_BETWEEN_WIDGETS, MARGIN_BETWEEN_WIDGETS] }}
+          margin={{ lg: [0, 0] }} // <--- I once used this to give margin between widgets, but today I do that by putting a padding on the BaseWidget component.
           draggableCancel='.do-not-drag-me' // <--- A CSS selector for tags that will not be draggable. If you forget the leading . it will not work. .react-resizable-handle is always prepended to this value.
           containerPadding={[0, 0]}
           isBounded

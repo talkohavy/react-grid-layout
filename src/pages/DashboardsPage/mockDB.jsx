@@ -39,7 +39,7 @@ export const mockData = [
       {
         i: 'aaa',
         w: 12,
-        h: 9,
+        h: 4,
         x: 0,
         y: 2,
         minW: 2,
@@ -60,7 +60,7 @@ export const mockData = [
       {
         i: 'bbb',
         w: 12,
-        h: 9,
+        h: 2,
         x: 12,
         y: 2,
         minW: 2,

@@ -94,22 +94,47 @@ export type Widget = {
    */
   y: number;
   /**
-   * Is the widget static? `false` means it can be resized.
-   * @default '??'
+   * If false, will not be draggable. Overrides `static`.
+   * @default true
+   */
+  isDraggable?: boolean;
+  /**
+   * If false, will not be resizable. Overrides `static`.
+   * @default true
+   */
+  isResizable?: boolean;
+  /**
+   * Setting this to `true` is equal to setting `isDraggable: false, isResizable: false`.
+   * @default false
    */
   static?: boolean;
   /**
    * If set, cannot resize a widget to a width lower than this value.
-   * @default '??'
+   * @default 0
    */
   minW?: number;
   /**
    * If set, cannot resize a widget to a height lower than this value.
-   * @default '??'
+   * @default 0
    */
   minH?: number;
   /**
+   * If set, cannot resize a widget to a width higher than this value.
+   * @default Infinity
+   */
+  maxW?: number;
+  /**
+   * If set, cannot resize a widget to a height higher than this value.
+   * @default Infinity
+   */
+  maxH?: number;
+  /**
    * Every widget type has its own props which can be passed to it.
    */
+  /**
+   * If true and draggable, item will be moved only within grid.
+   * @default false
+   */
+  isBounded?: boolean;
   props?: any;
 };

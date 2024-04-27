@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { BREAKPOINT_SIZES, GAP_FROM_WALLS, GRID_COLUMN_COUNT, GRID_ROW_HEIGHT } from './constants';
@@ -14,7 +14,10 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 /** @param {{ data: Array<Widget>, className?: string }} props */
 export default function Dashboard({ data, className }) {
+  const dashboardRef = useRef();
+
   const [isShowGridLines, setIsShowGridLines] = useState(false);
+  const [horizontalLinesCount, setHorizontalLinesCount] = useState(0);
 
   const onResizeOrDragStart = () => setIsShowGridLines(true);
   const onResizeOrDragStop = () => setIsShowGridLines(false);
@@ -32,13 +35,51 @@ export default function Dashboard({ data, className }) {
     };
   }, []);
 
+  useEffect(() => {
+    let prevHeight = 0;
+    let prevHorizontalLinesCount = 0;
+    let sameHeightCases = 0;
+    let sameLineCountCases = 0;
+    let LineCountChangedCases = 0;
+    if (dashboardRef) {
+      const observer = new ResizeObserver((entries) => {
+        console.log('sameHeightCases is:', sameHeightCases);
+        console.log('sameLineCountCases is:', sameLineCountCases);
+        console.log('LineCountChangedCases is:', LineCountChangedCases);
+        console.log('-----------------------------');
+        const [{ borderBoxSize }] = entries;
+
+        const newHeight = borderBoxSize[0].blockSize;
+        if (prevHeight === newHeight) {
+          sameHeightCases++;
+          return;
+        }
+        prevHeight = newHeight;
+
+        const newHorizontalLinesCount = Math.ceil(newHeight / 50);
+        if (prevHorizontalLinesCount === newHorizontalLinesCount) {
+          sameLineCountCases++;
+          return;
+        }
+        prevHorizontalLinesCount = newHorizontalLinesCount;
+        LineCountChangedCases++;
+
+        setHorizontalLinesCount(newHorizontalLinesCount);
+      });
+
+      observer.observe(dashboardRef.current);
+
+      return () => observer.disconnect();
+    }
+  }, []);
+
   return (
     <div
       className={clsx('w-full overflow-auto rounded-lg border bg-gray-50 dark:bg-slate-900', className)}
       style={{ direction: 'ltr', padding: GAP_FROM_WALLS }}
     >
-      <div className='relative'>
-        {isShowGridLines && <DashboardGrid color='black' />}
+      <div className='relative' ref={dashboardRef}>
+        {!isShowGridLines && <DashboardGrid color='black' horizontalLinesCount={horizontalLinesCount} />}
 
         <ResponsiveGridLayout
           autoSize // If true, the container height swells and contracts to fit contents.

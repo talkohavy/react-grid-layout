@@ -37,8 +37,9 @@ function getMergedDashboardSettings(props) {
         isBounded: dashboard?.isBounded ?? true,
         breakpoints: { lg: BREAKPOINT_SIZES.lg },
         cols: { lg: GRID_COLUMN_COUNT },
-        rowHeight: GRID_ROW_HEIGHT,
-        compactType: COMPACT_TYPE[dashboard.floatType ?? 'to-top'],
+        rowHeight: GRID_ROW_HEIGHT, // <--- defaults to 150
+        compactType: COMPACT_TYPE[dashboard?.floatType ?? 'to-top'],
+        allowOverlap: dashboard?.allowOverlap ?? false,
         // fixed values:
         margin: { lg: [0, 0] },
         containerPadding: [0, 0],

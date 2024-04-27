@@ -23,6 +23,7 @@ export type DashboardMergedSettings = {
     gapFromWalls: number;
     props: {
       isBounded: boolean;
+      allowOverlap: boolean;
       breakpoints: any;
       compactType: 'vertical' | 'horizontal' | null;
       cols: any; // <--- defaults to 12. Number of columns in this layout.
@@ -62,6 +63,11 @@ export type DashboardSettings = {
      * @default 'to-top'
      */
     floatType?: 'to-top' | 'to-left' | 'free-form';
+    /**
+     * If true, grid can be placed one over the other.
+     * @default false
+     */
+    allowOverlap?: boolean;
   };
 };
 

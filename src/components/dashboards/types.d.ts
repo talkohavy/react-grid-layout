@@ -11,6 +11,55 @@ export type Dashboard = {
   widgetsLayout: Array<Widget>;
 };
 
+export type DashboardMergedSettings = {
+  grid: {
+    alwaysVisible: boolean;
+    props: {
+      color: string;
+    };
+  };
+  dashboard: {
+    gapBetweenWidgets: number;
+    gapFromWalls: number;
+    props: {
+      isBounded: boolean;
+      breakpoints: any;
+      cols: any; // <--- defaults to 12. Number of columns in this layout.
+      margin: any; // <--- I once used this to give margin between widgets, but today I do that by putting a padding on the BaseWidget component.
+      containerPadding: any;
+      rowHeight: number;
+      resizeHandles: Array<'se' | 'sw' | 'ne' | 'nw' | 'n' | 's' | 'e' | 'w'>;
+    };
+  };
+};
+
+export type DashboardSettings = {
+  grid?: {
+    /**
+     * @default false
+     */
+    alwaysVisible?: boolean;
+    /**
+     * @default '#777'
+     */
+    color?: string;
+  };
+  dashboard?: {
+    /**
+     * @default true
+     */
+    isBounded?: boolean;
+    /**
+     * @default 10
+     */
+    gapBetweenWidgets?: number; // <--- when you change this, you'll need to manually change dashboard.css to position the drag/resize handlers.
+    /**
+     * @default 10
+     */
+    gapFromWalls?: number;
+  };
+};
+
 export type Widget = {
   /**
    * **REQUIRED**

@@ -1,39 +1,43 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { BREAKPOINT_SIZES, GAP_FROM_WALLS, GRID_COLUMN_COUNT, GRID_ROW_HEIGHT } from './constants';
 import DashboardGrid from './DashboardGrid';
+import { getMergedDashboardSettings } from './helpers';
 import DashboardWidget from './Widget/DashboardWidget';
 import './dashboards.css';
 
 /**
  * @typedef {import('./types').Widget} Widget
+ * @typedef {import('./types').DashboardSettings} DashboardSettings
  */
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-/** @param {{ data: Array<Widget>, className?: string }} props */
-export default function Dashboard({ data, className }) {
+/**
+ * @param {{
+ *   data: Array<Widget>,
+ *   settings?: DashboardSettings,
+ *   onLayoutChange?: any,
+ *   className?: string,
+ * }} props
+ */
+export default function Dashboard(props) {
+  const { data, settings: settingsToMerge, onLayoutChange, className } = props;
+
   const dashboardRef = useRef();
 
   const [isShowGridLines, setIsShowGridLines] = useState(false);
   const [horizontalLinesCount, setHorizontalLinesCount] = useState(0);
 
-  const onResizeOrDragStart = () => setIsShowGridLines(true);
-  const onResizeOrDragStop = () => setIsShowGridLines(false);
+  const onResizeOrDragStart = (props) => {
+    setIsShowGridLines(true);
+    onLayoutChange?.(props);
+  };
 
-  // eslint-disable-next-line
-  const dashboardSettings = useMemo(() => {
-    // getSettings()
-    // eslint-disable-next-line
-    const a = 1;
-    return {
-      grid: {
-        show: true,
-        color: 'black',
-      },
-    };
-  }, []);
+  const onResizeOrDragStop = (props) => {
+    setIsShowGridLines(false);
+    onLayoutChange?.(props);
+  };
 
   useEffect(() => {
     let prevHeight = 0;
@@ -61,25 +65,23 @@ export default function Dashboard({ data, className }) {
     }
   }, []);
 
+  const settings = useMemo(() => getMergedDashboardSettings({ settingsToMerge }), [settingsToMerge]);
+
   return (
     <div
       className={clsx('w-full overflow-auto rounded-lg border bg-gray-50 dark:bg-slate-900', className)}
-      style={{ direction: 'ltr', padding: GAP_FROM_WALLS }}
+      style={{ direction: 'ltr', padding: settings.dashboard.gapFromWalls }}
     >
       <div className='relative' ref={dashboardRef}>
-        {isShowGridLines && <DashboardGrid color='black' horizontalLinesCount={horizontalLinesCount} />}
+        {(settings.grid.alwaysVisible || isShowGridLines) && (
+          <DashboardGrid {...settings.grid.props} horizontalLinesCount={horizontalLinesCount} />
+        )}
 
         <ResponsiveGridLayout
           autoSize // If true, the container height swells and contracts to fit contents.
-          layouts={{ lg: data }}
-          breakpoints={{ lg: BREAKPOINT_SIZES.lg }}
-          cols={{ lg: GRID_COLUMN_COUNT }} // <--- defaults to 12. Number of columns in this layout.
-          margin={{ lg: [0, 0] }} // <--- I once used this to give margin between widgets, but today I do that by putting a padding on the BaseWidget component.
           draggableCancel='.do-not-drag-me' // <--- A CSS selector for tags that will not be draggable. If you forget the leading . it will not work. .react-resizable-handle is always prepended to this value.
-          containerPadding={[0, 0]}
-          isBounded
-          resizeHandles={['se']}
-          rowHeight={GRID_ROW_HEIGHT}
+          layouts={{ lg: data }}
+          {...settings.dashboard.props}
           onDragStart={onResizeOrDragStart}
           onDragStop={onResizeOrDragStop}
           onResizeStart={onResizeOrDragStart}
@@ -92,7 +94,11 @@ export default function Dashboard({ data, className }) {
 
             return (
               <div key={widgetProps.id}>
-                <DashboardWidget key={widgetProps.id} widgetProps={widgetProps} />
+                <DashboardWidget
+                  key={widgetProps.id}
+                  widgetProps={widgetProps}
+                  gapBetweenWidgets={settings.dashboard.gapBetweenWidgets}
+                />
               </div>
             );
           })}

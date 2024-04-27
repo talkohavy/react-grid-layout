@@ -1,11 +1,11 @@
-import BarChartWidget from './BarChartWidget/Renderer';
-import LineChartWidget from './LineChartWidget/Renderer';
-import TextWidget from './TextWidget/Renderer';
+import BarChartWidget from './BarChartWidget/BarChartWidget';
+import LineChartWidget from './LineChartWidget/LineChartWidget';
+import TextWidget from './TextWidget/TextWidget';
 
 const widgetsMapper = {
-  LineChart: { renderer: LineChartWidget },
-  BarChart: { renderer: BarChartWidget },
-  Text: { renderer: TextWidget },
+  LineChart: LineChartWidget,
+  BarChart: BarChartWidget,
+  Text: TextWidget,
 };
 
 export { widgetsMapper };

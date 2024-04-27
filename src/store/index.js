@@ -1,10 +1,6 @@
 import { createLogger } from 'redux-logger';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { apiFallbackReducer, fetchApiMiddleware } from './slices/api';
-import { galleryMiddleware, galleryReducer } from './slices/gallery';
-import { modalsReducer } from './slices/modals';
-import { toastMiddleware, toastReducer } from './slices/toast';
-import { userMiddleware, userReducer } from './slices/user';
 
 /**
  * @typedef {import('@reduxjs/toolkit').Action} Action
@@ -16,19 +12,15 @@ const reduxLogger = createLogger({
 });
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  modals: modalsReducer,
-  gallery: galleryReducer,
-  toast: toastReducer,
   apiFallback: apiFallbackReducer,
 });
 
 function getAllMiddlewares() {
-  return [userMiddleware, toastMiddleware, galleryMiddleware, fetchApiMiddleware];
+  return [fetchApiMiddleware];
 }
 
 /**
- * @param {{preloadedState?: Partial<State>}} props
+ * @param {{preloadedState?: Partial<any>}} props
  */
 export function createStore({ preloadedState }) {
   const store = configureStore({

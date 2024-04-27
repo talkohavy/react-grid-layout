@@ -20,11 +20,6 @@ const routesRaw = [
     activeNames: ['/home', '/'],
   },
   {
-    to: '/redux',
-    text: 'Redux Example',
-    activeNames: ['/redux'],
-  },
-  {
     to: '/dashboards/1',
     text: 'Dashboard',
     activeNames: ['/dashboard'],

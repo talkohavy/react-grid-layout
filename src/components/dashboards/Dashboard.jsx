@@ -38,31 +38,19 @@ export default function Dashboard({ data, className }) {
   useEffect(() => {
     let prevHeight = 0;
     let prevHorizontalLinesCount = 0;
-    let sameHeightCases = 0;
-    let sameLineCountCases = 0;
-    let LineCountChangedCases = 0;
     if (dashboardRef) {
       const observer = new ResizeObserver((entries) => {
-        console.log('sameHeightCases is:', sameHeightCases);
-        console.log('sameLineCountCases is:', sameLineCountCases);
-        console.log('LineCountChangedCases is:', LineCountChangedCases);
-        console.log('-----------------------------');
         const [{ borderBoxSize }] = entries;
 
         const newHeight = borderBoxSize[0].blockSize;
-        if (prevHeight === newHeight) {
-          sameHeightCases++;
-          return;
-        }
+        if (prevHeight === newHeight) return;
+
         prevHeight = newHeight;
 
-        const newHorizontalLinesCount = Math.ceil(newHeight / 50);
-        if (prevHorizontalLinesCount === newHorizontalLinesCount) {
-          sameLineCountCases++;
-          return;
-        }
+        const newHorizontalLinesCount = Math.ceil((newHeight + 1) / 50);
+        if (prevHorizontalLinesCount === newHorizontalLinesCount) return;
+
         prevHorizontalLinesCount = newHorizontalLinesCount;
-        LineCountChangedCases++;
 
         setHorizontalLinesCount(newHorizontalLinesCount);
       });
@@ -79,7 +67,7 @@ export default function Dashboard({ data, className }) {
       style={{ direction: 'ltr', padding: GAP_FROM_WALLS }}
     >
       <div className='relative' ref={dashboardRef}>
-        {!isShowGridLines && <DashboardGrid color='black' horizontalLinesCount={horizontalLinesCount} />}
+        {isShowGridLines && <DashboardGrid color='black' horizontalLinesCount={horizontalLinesCount} />}
 
         <ResponsiveGridLayout
           autoSize // If true, the container height swells and contracts to fit contents.

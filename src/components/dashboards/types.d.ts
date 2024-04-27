@@ -24,6 +24,7 @@ export type DashboardMergedSettings = {
     props: {
       isBounded: boolean;
       breakpoints: any;
+      compactType: 'vertical' | 'horizontal' | null;
       cols: any; // <--- defaults to 12. Number of columns in this layout.
       margin: any; // <--- I once used this to give margin between widgets, but today I do that by putting a padding on the BaseWidget component.
       containerPadding: any;
@@ -57,6 +58,10 @@ export type DashboardSettings = {
      * @default 10
      */
     gapFromWalls?: number;
+    /**
+     * @default 'to-top'
+     */
+    floatType?: 'to-top' | 'to-left' | 'free-form';
   };
 };
 

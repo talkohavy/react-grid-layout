@@ -3,7 +3,14 @@
  * @typedef {import('../types').DashboardMergedSettings} DashboardMergedSettings
  */
 
-import { BREAKPOINT_SIZES, GAP_BETWEEN_WIDGETS, GRID_COLOR, GRID_COLUMN_COUNT, GRID_ROW_HEIGHT } from '../constants';
+import {
+  BREAKPOINT_SIZES,
+  COMPACT_TYPE,
+  GAP_BETWEEN_WIDGETS,
+  GRID_COLOR,
+  GRID_COLUMN_COUNT,
+  GRID_ROW_HEIGHT,
+} from '../constants';
 
 /**
  * @param {{
@@ -31,6 +38,7 @@ function getMergedDashboardSettings(props) {
         breakpoints: { lg: BREAKPOINT_SIZES.lg },
         cols: { lg: GRID_COLUMN_COUNT },
         rowHeight: GRID_ROW_HEIGHT,
+        compactType: COMPACT_TYPE[dashboard.floatType ?? 'to-top'],
         // fixed values:
         margin: { lg: [0, 0] },
         containerPadding: [0, 0],

@@ -29,6 +29,7 @@ export default function SingleDashboardPage() {
           dashboard: {
             gapBetweenWidgets: 0,
             gapFromWalls: 0,
+            // floatType: 'free-form',
           },
         }}
         data={widgetsLayout}

@@ -11,6 +11,9 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^2.2.2
         version: 2.2.2(react-redux@9.1.0(@types/react@18.2.66)(react@18.2.0)(redux@5.0.1))(react@18.2.0)
+      '@talkohavy/lodash':
+        specifier: ^1.0.51
+        version: 1.0.51
       axios:
         specifier: ^1.6.8
         version: 1.6.8
@@ -515,6 +518,9 @@ packages:
 
   '@swc/types@0.1.5':
     resolution: {integrity: sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==}
+
+  '@talkohavy/lodash@1.0.51':
+    resolution: {integrity: sha512-B60zloa8CywKQHIhBhG7LSqkYZxczvOmAzeYbh5HFrQV3gXCSDLS84UXXYjS+DsnrLJgRuYGchpx9RNEYmtlgw==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -2239,6 +2245,8 @@ snapshots:
   '@swc/counter@0.1.2': {}
 
   '@swc/types@0.1.5': {}
+
+  '@talkohavy/lodash@1.0.51': {}
 
   '@types/json-schema@7.0.15': {}
 

@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import { areObjectsEqual } from '@talkohavy/lodash';
 import DashboardGrid from './DashboardGrid';
-import { getMergedDashboardSettings } from './helpers';
+import { getMergedDashboardSettings, keepLayoutPropsOnly } from './helpers';
 import DashboardWidget from './Widget/DashboardWidget';
 import './dashboards.css';
 
@@ -17,7 +18,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * @param {{
  *   data: Array<Widget>,
  *   settings?: DashboardSettings,
- *   onLayoutChange?: any,
+ *   onLayoutChange?: (props: {hasChanged: boolean, newLayout: any}) => void,
  *   className?: string,
  * }} props
  */
@@ -25,18 +26,25 @@ export default function Dashboard(props) {
   const { data, settings: settingsToMerge, onLayoutChange, className } = props;
 
   const dashboardRef = useRef();
+  const previousLayoutState = useRef(keepLayoutPropsOnly(data));
 
   const [isShowGridLines, setIsShowGridLines] = useState(false);
   const [horizontalLinesCount, setHorizontalLinesCount] = useState(0);
 
-  const onResizeOrDragStart = (props) => {
+  const onResizeOrDragStart = () => {
     setIsShowGridLines(true);
-    onLayoutChange?.(props);
   };
 
   const onResizeOrDragStop = (props) => {
     setIsShowGridLines(false);
-    onLayoutChange?.(props);
+
+    const newLayoutState = keepLayoutPropsOnly(props);
+    // @ts-ignore
+    const hasChanged = !areObjectsEqual(newLayoutState, previousLayoutState.current);
+
+    onLayoutChange?.({ hasChanged, newLayout: props });
+
+    previousLayoutState.current = keepLayoutPropsOnly(props);
   };
 
   useEffect(() => {

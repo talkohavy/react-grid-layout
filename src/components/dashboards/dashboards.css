@@ -1,35 +1,35 @@
 .react-resizable-handle.react-resizable-handle-se {
-  right: 12px !important;
-  bottom: 12px !important;
+  right: 8px !important;
+  bottom: 8px !important;
 }
 
 .react-resizable-handle.react-resizable-handle-sw {
-  left: 12px !important;
-  bottom: 12px !important;
+  left: 8px !important;
+  bottom: 8px !important;
 }
 
 .react-resizable-handle.react-resizable-handle-ne {
-  right: 12px !important;
-  top: 12px !important;
+  right: 8px !important;
+  top: 8px !important;
 }
 
 .react-resizable-handle.react-resizable-handle-nw {
-  left: 12px !important;
-  top: 12px !important;
+  left: 8px !important;
+  top: 8px !important;
 }
 
 .react-resizable-handle.react-resizable-handle-n {
-  top: 12px !important;
+  top: 8px !important;
 }
 
 .react-resizable-handle.react-resizable-handle-s {
-  bottom: 12px !important;
+  bottom: 8px !important;
 }
 
 .react-resizable-handle.react-resizable-handle-e {
-  right: 12px !important;
+  right: 8px !important;
 }
 
 .react-resizable-handle.react-resizable-handle-w {
-  left: 12px !important;
+  left: 8px !important;
 }

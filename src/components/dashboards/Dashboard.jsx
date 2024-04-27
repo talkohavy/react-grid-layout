@@ -75,6 +75,27 @@ export default function Dashboard(props) {
 
   const settings = useMemo(() => getMergedDashboardSettings({ settingsToMerge }), [settingsToMerge]);
 
+  // It is recommended by react-grid-layout to memoize the children:
+  const childrenMemoized = useMemo(
+    () =>
+      data.map((currentWidget) => {
+        /** @type {any} */
+        const widgetProps = currentWidget.props ?? {};
+        widgetProps.id = currentWidget.i;
+
+        return (
+          <div key={widgetProps.id}>
+            <DashboardWidget
+              key={widgetProps.id}
+              widgetProps={widgetProps}
+              gapBetweenWidgets={settings.dashboard.gapBetweenWidgets}
+            />
+          </div>
+        );
+      }),
+    [data, settings.dashboard.gapBetweenWidgets],
+  );
+
   return (
     <div
       className={clsx('w-full overflow-auto rounded-lg border bg-gray-50 dark:bg-slate-900', className)}
@@ -95,21 +116,7 @@ export default function Dashboard(props) {
           onResizeStart={onResizeOrDragStart}
           onResizeStop={onResizeOrDragStop}
         >
-          {data.map((currentWidget) => {
-            /** @type {any} */
-            const widgetProps = currentWidget.props ?? {};
-            widgetProps.id = currentWidget.i;
-
-            return (
-              <div key={widgetProps.id}>
-                <DashboardWidget
-                  key={widgetProps.id}
-                  widgetProps={widgetProps}
-                  gapBetweenWidgets={settings.dashboard.gapBetweenWidgets}
-                />
-              </div>
-            );
-          })}
+          {childrenMemoized}
         </ResponsiveGridLayout>
       </div>
     </div>

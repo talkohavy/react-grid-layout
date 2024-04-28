@@ -138,7 +138,10 @@ export type Widget = {
    * Every widget type has its own props which can be passed to it.
    */
   /**
-   * If true and draggable, item will be moved only within grid.
+   * If isBounded on the dashboard level is set to `true`, all widgets are bounded to move only within the grid.
+   * A widget can override the dashboard's isBounded `true`, by setting its own isBounded to `false`, and thus be able to move outside the grid.
+   * If isBounded on the dashboard level is set to `false`, it doesn't matter what any widget will set. They will all be able to move outside the grid.
+   * Of course, only widgets with `draggable` set to `true` will be able to move at all.
    * @default false
    */
   isBounded?: boolean;

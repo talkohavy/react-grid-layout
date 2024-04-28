@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { GRID_COLOR } from '../constants';
 
-export default function VerticalLines({ colsNumber, color = 'black' }) {
+export default function VerticalLines({ colsNumber, height, color = 'black' }) {
   const verticalLines = useMemo(() => Array.from(Array(colsNumber + 1).keys()), [colsNumber]);
 
   return (
@@ -10,7 +10,7 @@ export default function VerticalLines({ colsNumber, color = 'black' }) {
         <div
           key={`vertical-line-${index}`}
           className='h-full border-l-1 border-dashed'
-          style={{ borderColor: color ?? GRID_COLOR }}
+          style={{ borderColor: color ?? GRID_COLOR, height: height + 20 }}
         />
       ))}
     </div>

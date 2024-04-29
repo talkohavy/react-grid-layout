@@ -44,7 +44,7 @@ function getMergedDashboardSettings(props) {
         // fixed values:
         margin: { lg: [0, 0] },
         containerPadding: [0, 0],
-        resizeHandles: ['se'],
+        resizeHandles: ['se', 'sw'],
       },
     },
   };

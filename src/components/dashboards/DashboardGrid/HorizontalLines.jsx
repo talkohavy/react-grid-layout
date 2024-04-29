@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { GRID_COLOR, GRID_ROW_HEIGHT } from '../constants';
 
-export default function GridHorizontalLinesOverlay({ horizontalLinesCount, color }) {
+export default function HorizontalLines({ horizontalLinesCount, color }) {
   const horizontalLines = useMemo(() => {
     const howManyLines = Math.max(0, horizontalLinesCount - 1);
 
@@ -13,7 +13,7 @@ export default function GridHorizontalLinesOverlay({ horizontalLinesCount, color
       {horizontalLines.map((_, index) => (
         <div
           key={`horizontal-line-${index}`}
-          className='m-auto border-b-1 border-dashed'
+          className='w-full border-b-1 border-dashed'
           style={{
             borderColor: color ?? GRID_COLOR,
             height: GRID_ROW_HEIGHT,

@@ -27,6 +27,7 @@ function getMergedDashboardSettings(props) {
     grid: {
       alwaysVisible: grid?.alwaysVisible ?? false,
       props: {
+        verticalLinesCount: GRID_COLUMN_COUNT + 1, // <--- this value should match (dashboard.props.cols.lg + 1) exactly.
         color: grid?.color ?? GRID_COLOR,
       },
     },

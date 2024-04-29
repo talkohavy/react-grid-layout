@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import clsx from 'clsx';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { areObjectsEqual } from '@talkohavy/lodash';
+import { GRID_ROW_HEIGHT } from './constants';
+import DashboardCard from './DashboardCard';
 import DashboardGrid from './DashboardGrid';
 import { getMergedDashboardSettings, keepLayoutPropsOnly } from './helpers';
 import DashboardWidget from './Widget/DashboardWidget';
@@ -26,10 +27,15 @@ export default function Dashboard(props) {
   const { data, settings: settingsToMerge, onLayoutChange, className } = props;
 
   const dashboardRef = useRef();
+  const prevVerticalLinesHeight = useRef(0);
+  const prevHorizontalLinesCount = useRef(0);
   const previousLayoutState = useRef(keepLayoutPropsOnly(data));
 
   const [isShowGridLines, setIsShowGridLines] = useState(false);
   const [horizontalLinesCount, setHorizontalLinesCount] = useState(0);
+  const [verticalLinesHeight, setVerticalLinesHeight] = useState(0);
+
+  const settings = useMemo(() => getMergedDashboardSettings({ settingsToMerge }), [settingsToMerge]);
 
   const onResizeOrDragStart = () => {
     setIsShowGridLines(true);
@@ -47,33 +53,57 @@ export default function Dashboard(props) {
     previousLayoutState.current = keepLayoutPropsOnly(props);
   };
 
-  useEffect(() => {
-    let prevHeight = 0;
-    let prevHorizontalLinesCount = 0;
-    if (dashboardRef) {
-      const observer = new ResizeObserver((entries) => {
-        const [{ borderBoxSize }] = entries;
+  const setHorizontalLinesCountAndVerticalLinesHeight = useCallback(({ boxHeight = 0 }) => {
+    // Step 1: calculate verticalLinesHeight
+    // @ts-ignore
+    const newMaxHeight = Math.max(dashboardRef.current.clientHeight, boxHeight);
+    const newVerticalLinesHeight = Math.floor(newMaxHeight / GRID_ROW_HEIGHT) * GRID_ROW_HEIGHT;
+    if (prevVerticalLinesHeight.current === newVerticalLinesHeight) return;
+    prevVerticalLinesHeight.current = newVerticalLinesHeight;
 
-        const newHeight = borderBoxSize[0].blockSize;
-        if (prevHeight === newHeight) return;
+    // Step 2: calculate horizontalLinesCount from verticalLinesHeight
+    const newHorizontalLinesCount = Math.ceil((newVerticalLinesHeight + 1) / GRID_ROW_HEIGHT);
+    if (prevHorizontalLinesCount.current === newHorizontalLinesCount) return;
+    prevHorizontalLinesCount.current = newHorizontalLinesCount;
 
-        prevHeight = newHeight;
-
-        const newHorizontalLinesCount = Math.ceil((newHeight + 1) / 50);
-        if (prevHorizontalLinesCount === newHorizontalLinesCount) return;
-
-        prevHorizontalLinesCount = newHorizontalLinesCount;
-
-        setHorizontalLinesCount(newHorizontalLinesCount);
-      });
-
-      observer.observe(dashboardRef.current);
-
-      return () => observer.disconnect();
-    }
+    setHorizontalLinesCount(newHorizontalLinesCount);
+    setVerticalLinesHeight(newVerticalLinesHeight);
   }, []);
 
-  const settings = useMemo(() => getMergedDashboardSettings({ settingsToMerge }), [settingsToMerge]);
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      const [{ borderBoxSize }] = entries;
+      const boxHeight = borderBoxSize[0].blockSize;
+      setHorizontalLinesCountAndVerticalLinesHeight({ boxHeight });
+    });
+
+    observer.observe(dashboardRef.current);
+
+    return () => observer.disconnect();
+  }, [setHorizontalLinesCountAndVerticalLinesHeight]);
+
+  const onDragCalculateVerticalGridLinesHeight = (layout) => {
+    const maxHeight = layout.reduce((maxHeight, currentWidget) => {
+      const currentWidgetHeight = currentWidget.y + currentWidget.h;
+      if (maxHeight < currentWidgetHeight) return currentWidgetHeight;
+
+      return maxHeight;
+    }, 0);
+
+    // @ts-ignore
+    const heightOfDashboardBoxWrapper = dashboardRef.current.clientHeight;
+    const heightNeededForLowestWidget = maxHeight * GRID_ROW_HEIGHT;
+    const newVerticalLinesHeight = Math.max(heightNeededForLowestWidget, heightOfDashboardBoxWrapper);
+
+    setVerticalLinesHeight(newVerticalLinesHeight);
+
+    // Step 2: calculate horizontalLinesCount from verticalLinesHeight
+    const newHorizontalLinesCount = Math.ceil((newVerticalLinesHeight + 1) / GRID_ROW_HEIGHT);
+    if (prevHorizontalLinesCount.current === newHorizontalLinesCount) return;
+    prevHorizontalLinesCount.current = newHorizontalLinesCount;
+
+    setHorizontalLinesCount(newHorizontalLinesCount);
+  };
 
   // It is recommended by react-grid-layout to memoize the children:
   const childrenMemoized = useMemo(
@@ -97,13 +127,19 @@ export default function Dashboard(props) {
   );
 
   return (
-    <div
-      className={clsx('w-full overflow-auto rounded-lg border bg-gray-50 dark:bg-slate-900', className)}
-      style={{ direction: 'ltr', padding: settings.dashboard.gapFromWalls }}
-    >
-      <div className='relative' ref={dashboardRef}>
+    <DashboardCard className={className} style={{ direction: 'ltr', padding: settings.dashboard.gapFromWalls }}>
+      <div
+        className='dashboard-grab-handler relative size-full overflow-auto'
+        ref={dashboardRef}
+        // @ts-ignore
+        onScroll={setHorizontalLinesCountAndVerticalLinesHeight}
+      >
         {(settings.grid.alwaysVisible || isShowGridLines) && (
-          <DashboardGrid {...settings.grid.props} horizontalLinesCount={horizontalLinesCount} />
+          <DashboardGrid
+            {...settings.grid.props}
+            horizontalLinesCount={horizontalLinesCount}
+            height={verticalLinesHeight}
+          />
         )}
 
         <ResponsiveGridLayout
@@ -111,14 +147,25 @@ export default function Dashboard(props) {
           draggableCancel='.do-not-drag-me' // <--- A CSS selector for tags that will not be draggable. If you forget the leading . it will not work. .react-resizable-handle is always prepended to this value.
           layouts={{ lg: data }}
           {...settings.dashboard.props}
-          onDragStart={onResizeOrDragStart}
+          onDragStart={(layout) => {
+            onResizeOrDragStart();
+            onDragCalculateVerticalGridLinesHeight(layout);
+          }}
           onDragStop={onResizeOrDragStop}
-          onResizeStart={onResizeOrDragStart}
-          onResizeStop={onResizeOrDragStop}
+          onResizeStart={(layout) => {
+            onResizeOrDragStart();
+            onDragCalculateVerticalGridLinesHeight(layout);
+          }}
+          onResizeStop={(layout) => {
+            onResizeOrDragStop(layout);
+            onDragCalculateVerticalGridLinesHeight(layout);
+          }}
+          onDrag={onDragCalculateVerticalGridLinesHeight}
+          style={{ height: '100%' }} // <--- without this, react-grid-layout calculates a fixed value for the height based on highest stacked "tower" of widgets.
         >
           {childrenMemoized}
         </ResponsiveGridLayout>
       </div>
-    </div>
+    </DashboardCard>
   );
 }

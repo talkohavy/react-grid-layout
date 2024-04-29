@@ -15,6 +15,7 @@ export type DashboardMergedSettings = {
   grid: {
     alwaysVisible: boolean;
     props: {
+      verticalLinesCount: number;
       color: string;
     };
   };

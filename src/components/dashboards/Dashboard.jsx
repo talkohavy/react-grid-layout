@@ -37,9 +37,7 @@ export default function Dashboard(props) {
 
   const settings = useMemo(() => getMergedDashboardSettings({ settingsToMerge }), [settingsToMerge]);
 
-  const onResizeOrDragStart = () => {
-    setIsShowGridLines(true);
-  };
+  const onResizeOrDragStart = () => setIsShowGridLines(true);
 
   const onResizeOrDragStop = (props) => {
     setIsShowGridLines(false);

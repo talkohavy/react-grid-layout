@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { GRID_COLOR } from '../constants';
+import { DASHBOARD_DEFAULT_LINES_COLOR } from '../constants';
 
 export default function VerticalLines({ verticalLinesCount, height, color = 'black' }) {
   const verticalLines = useMemo(() => Array.from(Array(verticalLinesCount).keys()), [verticalLinesCount]);
@@ -10,7 +10,7 @@ export default function VerticalLines({ verticalLinesCount, height, color = 'bla
         <div
           key={`vertical-line-${index}`}
           className='h-full border-l-1 border-dashed'
-          style={{ borderColor: color ?? GRID_COLOR, height }}
+          style={{ borderColor: color ?? DASHBOARD_DEFAULT_LINES_COLOR, height }}
         />
       ))}
     </div>

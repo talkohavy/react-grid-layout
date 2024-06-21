@@ -1,16 +1,16 @@
+import {
+  COMPACT_TYPE,
+  DASHBOARD_DEFAULT_BREAKPOINT_SIZES,
+  DASHBOARD_DEFAULT_COLUMN_COUNT,
+  DASHBOARD_DEFAULT_GAP_BETWEEN_WIDGETS,
+  DASHBOARD_DEFAULT_LINES_COLOR,
+  DASHBOARD_DEFAULT_ROW_HEIGHT,
+} from '../constants';
+
 /**
  * @typedef {import('../types').DashboardSettings} DashboardSettings
  * @typedef {import('../types').DashboardMergedSettings} DashboardMergedSettings
  */
-
-import {
-  BREAKPOINT_SIZES,
-  COMPACT_TYPE,
-  GAP_BETWEEN_WIDGETS,
-  GRID_COLOR,
-  GRID_COLUMN_COUNT,
-  GRID_ROW_HEIGHT,
-} from '../constants';
 
 /**
  * @param {{
@@ -23,26 +23,25 @@ function getMergedDashboardSettings(props) {
   const { dashboard, grid } = settingsToMerge ?? {};
 
   return {
-    ...settingsToMerge,
     grid: {
       alwaysVisible: grid?.alwaysVisible ?? false,
       props: {
-        verticalLinesCount: GRID_COLUMN_COUNT + 1, // <--- this value should match (dashboard.props.cols.lg + 1) exactly.
-        color: grid?.color ?? GRID_COLOR,
+        verticalLinesCount: DASHBOARD_DEFAULT_COLUMN_COUNT + 1, // <--- this value should match (dashboard.props.cols.lg + 1) exactly.
+        color: grid?.color ?? DASHBOARD_DEFAULT_LINES_COLOR,
       },
     },
     dashboard: {
-      gapBetweenWidgets: dashboard?.gapBetweenWidgets ?? GAP_BETWEEN_WIDGETS,
-      gapFromWalls: dashboard?.gapFromWalls ?? GAP_BETWEEN_WIDGETS,
+      gapBetweenWidgets: dashboard?.gapBetweenWidgets ?? DASHBOARD_DEFAULT_GAP_BETWEEN_WIDGETS,
+      gapFromWalls: dashboard?.gapFromWalls ?? DASHBOARD_DEFAULT_GAP_BETWEEN_WIDGETS,
       props: {
         // dynamic values:
-        isBounded: dashboard?.isBounded ?? true,
+        isBounded: dashboard?.isBounded ?? false,
         allowOverlap: dashboard?.allowOverlap ?? false,
         compactType: COMPACT_TYPE[dashboard?.floatType ?? 'to-top'],
+        cols: { lg: grid?.columnCount ?? DASHBOARD_DEFAULT_COLUMN_COUNT },
+        rowHeight: grid?.rowHeight ?? DASHBOARD_DEFAULT_ROW_HEIGHT, // <--- if `undefined` (which currently is impossible), react-grid-layout defaults to 150
         // fixed values:
-        breakpoints: { lg: BREAKPOINT_SIZES.lg },
-        cols: { lg: GRID_COLUMN_COUNT },
-        rowHeight: GRID_ROW_HEIGHT, // <--- defaults to 150
+        breakpoints: { lg: DASHBOARD_DEFAULT_BREAKPOINT_SIZES.lg },
         margin: { lg: [0, 0] },
         containerPadding: [0, 0],
         resizeHandles: ['se', 'sw'],

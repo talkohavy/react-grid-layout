@@ -1,5 +1,5 @@
-export default function TextWidget({ widgetProps }) {
-  const { textContent, fontSize, fontWeight, textAlign, justifyContent, alignItems } = widgetProps;
+export default function TextWidget(props) {
+  const { textContent, fontSize, fontWeight, textAlign, justifyContent, alignItems } = props;
 
   return (
     <div

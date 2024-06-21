@@ -1,11 +1,15 @@
-import { exampleWidgetsData } from '../../components/dashboards/exampleWidgetsData';
+import { exampleWidgetsData } from '../exampleWidgetsData';
 
+/**
+ * @type {Array<import('../../components/dashboards/types').IWidgetLayout> }
+ */
 const dashboardData = [
   // --------------------
   // Widget 1: TextWidget
   // --------------------
   {
     i: 'ccc',
+    type: 'Text',
     w: 6,
     h: 2,
     x: 9,
@@ -26,6 +30,7 @@ const dashboardData = [
   // ------------------
   {
     i: 'aaa',
+    type: 'BarChart',
     w: 12,
     h: 4,
     x: 0,
@@ -47,6 +52,7 @@ const dashboardData = [
   // -------------------
   {
     i: 'bbb',
+    type: 'LineChart',
     w: 12,
     h: 2,
     x: 12,
@@ -70,11 +76,11 @@ const dashboardData = [
 ];
 
 /**
- * @typedef {import('../../components/dashboards/types').Dashboard} Dashboard
+ * @typedef {import('../../components/dashboards/types').IDashboard} IDashboard
  */
 
 /**
- * @type {Array<Dashboard>}
+ * @type {Array<IDashboard>}
  */
 export const dashboards = [
   {
@@ -93,7 +99,7 @@ export const dashboards = [
         floatType: 'free-form',
       },
     },
-    widgetsLayout: dashboardData,
+    data: dashboardData,
   },
   {
     id: 2,
@@ -110,13 +116,13 @@ export const dashboards = [
         // floatType: 'free-form',
       },
     },
-    widgetsLayout: dashboardData,
+    data: dashboardData,
     createdAt: '2023-05-24T02:59:55Z',
   },
   {
     id: 3,
     title: 'Demo Dashboard 3',
-    widgetsLayout: [],
+    data: [],
     createdAt: '2023-06-24T02:59:55Z',
   },
 ];

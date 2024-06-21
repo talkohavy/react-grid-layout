@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { GRID_COLOR, GRID_ROW_HEIGHT } from '../constants';
+import { DASHBOARD_DEFAULT_LINES_COLOR, DASHBOARD_DEFAULT_ROW_HEIGHT } from '../constants';
 
 export default function HorizontalLines({ horizontalLinesCount, color }) {
   const horizontalLines = useMemo(() => {
@@ -15,9 +15,9 @@ export default function HorizontalLines({ horizontalLinesCount, color }) {
           key={`horizontal-line-${index}`}
           className='w-full border-b-1 border-dashed'
           style={{
-            borderColor: color ?? GRID_COLOR,
-            height: GRID_ROW_HEIGHT,
-            borderTop: index === 0 ? `1px dashed ${color ?? GRID_COLOR}` : undefined,
+            borderColor: color ?? DASHBOARD_DEFAULT_LINES_COLOR,
+            height: DASHBOARD_DEFAULT_ROW_HEIGHT,
+            borderTop: index === 0 ? `1px dashed ${color ?? DASHBOARD_DEFAULT_LINES_COLOR}` : undefined,
           }}
         />
       ))}

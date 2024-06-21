@@ -1,16 +1,4 @@
-export type Dashboard = {
-  /**
-   * A dashboard's unique ID.
-   */
-  id: number | string;
-  /**
-   * A dashboard's display name.
-   */
-  title: string;
-  settings?: DashboardSettings;
-  createdAt: number | string;
-  widgetsLayout: Array<Widget>;
-};
+import { Layout } from 'react-grid-layout';
 
 export type DashboardMergedSettings = {
   grid: {
@@ -47,10 +35,18 @@ export type DashboardSettings = {
      * @default '#777'
      */
     color?: string;
+    /**
+     * @default 8
+     */
+    columnCount?: number;
+    /**
+     * row's height in pixels
+     */
+    rowHeight?: 50;
   };
   dashboard?: {
     /**
-     * @default true
+     * @default false
      */
     isBounded?: boolean;
     /**
@@ -73,79 +69,37 @@ export type DashboardSettings = {
   };
 };
 
-export type Widget = {
+export type IDashboard = {
+  id: number | string;
+  title?: string;
+  createdAt?: string;
+  settings?: DashboardSettings;
   /**
-   * **REQUIRED**
-   *
-   * A widget's unique ID.
-   * react-grid-layout REQUIRES this param to:
-   *
-   * 1. exist
-   * 2. be of type string
-   * 3. be name exactly 'i'
+   * @description
+   * A dashboard's data is an array of widgets.
+   * It holds a mapping between a widget's id, to its position on the dashboard,
+   * size, and other properties (like static or isResizable).
    */
-  i: string;
-  /**
-   * The widget's width
-   */
-  w: number;
-  /**
-   * The widget's height
-   */
-  h: number;
-  /**
-   * The X position, of the top left corner.
-   */
-  x: number;
-  /**
-   * The Y position, of the top left corner.
-   */
-  y: number;
-  /**
-   * If false, will not be draggable. Overrides `static`.
-   * @default true
-   */
-  isDraggable?: boolean;
-  /**
-   * If false, will not be resizable. Overrides `static`.
-   * @default true
-   */
-  isResizable?: boolean;
-  /**
-   * Setting this to `true` is equal to setting `isDraggable: false, isResizable: false`.
-   * @default false
-   */
-  static?: boolean;
-  /**
-   * If set, cannot resize a widget to a width lower than this value.
-   * @default 0
-   */
-  minW?: number;
-  /**
-   * If set, cannot resize a widget to a height lower than this value.
-   * @default 0
-   */
-  minH?: number;
-  /**
-   * If set, cannot resize a widget to a width higher than this value.
-   * @default Infinity
-   */
-  maxW?: number;
-  /**
-   * If set, cannot resize a widget to a height higher than this value.
-   * @default Infinity
-   */
-  maxH?: number;
-  /**
-   * Every widget type has its own props which can be passed to it.
-   */
-  /**
-   * If isBounded on the dashboard level is set to `true`, all widgets are bounded to move only within the grid.
-   * A widget can override the dashboard's isBounded `true`, by setting its own isBounded to `false`, and thus be able to move outside the grid.
-   * If isBounded on the dashboard level is set to `false`, it doesn't matter what any widget will set. They will all be able to move outside the grid.
-   * Of course, only widgets with `draggable` set to `true` will be able to move at all.
-   * @default false
-   */
-  isBounded?: boolean;
-  props?: any;
+  data: Array<IWidgetLayout>;
+};
+
+export type IWidgetLayout = Layout & {
+  type: string;
+  props: any;
+};
+
+export type OnChangeLayoutProps = {
+  newLayout: Array<Layout>;
+  widgetBefore: Layout;
+  widgetAfter: Layout;
+};
+
+export type OnResizeOrDragStopProps = {
+  newLayout: Array<Layout>;
+  widgetBefore: Layout;
+  widgetAfter: Layout;
+};
+
+export type WidgetsTypeToRendererMapper = {
+  [type: string]: (props?: any) => JSX.Element;
 };

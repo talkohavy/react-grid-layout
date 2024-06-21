@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
+import { widgetsMapper } from '../../components/customWidgets/widgetsMapper';
 import Dashboard from '../../components/dashboards/Dashboard';
 import { dashboards } from './mockDB';
 
@@ -10,12 +11,12 @@ export default function SingleDashboardPage() {
 
   const {
     title,
-    widgetsLayout,
+    data: widgetsLayout,
     settings: dashboardSettings,
   } = useMemo(() => {
     const currentDashboard = dashboards.find((currentDashboard) => currentDashboard.id === dashboardId);
 
-    if (!currentDashboard?.widgetsLayout) return { ...currentDashboard, widgetsLayout: [] };
+    if (!currentDashboard?.data) return { ...currentDashboard, widgetsLayout: [] };
 
     return currentDashboard;
   }, [dashboardId]);
@@ -46,8 +47,12 @@ export default function SingleDashboardPage() {
             dashboard 3
           </div>
         </div>
-
-        <Dashboard settings={dashboardSettings} data={widgetsLayout} onLayoutChange={console.log} />
+        <Dashboard
+          data={widgetsLayout}
+          settings={dashboardSettings}
+          onLayoutChange={console.log}
+          widgetsTypeToRendererMapper={widgetsMapper}
+        />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider as StoreProvider } from 'react-redux';
@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { initDAL } from './DAL';
 import DarkThemeProvider from './providers/DarkThemeProvider';
+import { initSessionManager } from './SessionManager';
 import { createStore } from './store';
 import './index.css';
 import 'react-grid-layout/css/styles.css';
@@ -14,16 +15,30 @@ const httpClientAxios = axios.create({ baseURL: 'http://localhost:8000', withCre
 
 const store = createStore({ preloadedState: {} });
 
-initDAL(httpClientAxios);
+function Client() {
+  const [isReady, setIsReady] = useState(false);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <StoreProvider store={store}>
-      <BrowserRouter>
-        <DarkThemeProvider>
-          <App />
-        </DarkThemeProvider>
-      </BrowserRouter>
-    </StoreProvider>
-  </React.StrictMode>,
-);
+  useEffect(() => {
+    initDAL(httpClientAxios);
+    initSessionManager();
+
+    setIsReady(true);
+  }, []);
+
+  if (!isReady) return null;
+
+  return (
+    <React.StrictMode>
+      <StoreProvider store={store}>
+        <BrowserRouter>
+          <DarkThemeProvider>
+            <App />
+          </DarkThemeProvider>
+        </BrowserRouter>
+      </StoreProvider>
+    </React.StrictMode>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Client />);

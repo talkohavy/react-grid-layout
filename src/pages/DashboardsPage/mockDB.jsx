@@ -79,7 +79,7 @@ const dashboardData = [
 export const dashboards = [
   {
     id: 1,
-    name: 'Demo Dashboard',
+    title: 'Demo Dashboard',
     createdAt: '2023-04-24T02:59:55Z',
     settings: {
       grid: {
@@ -97,7 +97,7 @@ export const dashboards = [
   },
   {
     id: 2,
-    name: 'Demo Dashboard 2',
+    title: 'Demo Dashboard 2',
     settings: {
       grid: {
         color: '#ccc',
@@ -115,7 +115,7 @@ export const dashboards = [
   },
   {
     id: 3,
-    name: 'Demo Dashboard 3',
+    title: 'Demo Dashboard 3',
     widgetsLayout: [],
     createdAt: '2023-06-24T02:59:55Z',
   },

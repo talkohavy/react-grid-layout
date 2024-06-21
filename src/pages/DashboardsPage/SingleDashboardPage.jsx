@@ -8,17 +8,22 @@ export default function SingleDashboardPage() {
   const { id } = useParams();
   const [dashboardId, setDashboardId] = useState(+id);
 
-  const { widgetsLayout, settings: dashboardSettings } = useMemo(() => {
+  const {
+    title,
+    widgetsLayout,
+    settings: dashboardSettings,
+  } = useMemo(() => {
     const currentDashboard = dashboards.find((currentDashboard) => currentDashboard.id === dashboardId);
 
-    if (!currentDashboard?.widgetsLayout) return { widgetsLayout: [] };
+    if (!currentDashboard?.widgetsLayout) return { ...currentDashboard, widgetsLayout: [] };
 
-    return { widgetsLayout: currentDashboard.widgetsLayout, settings: currentDashboard.settings };
+    return currentDashboard;
   }, [dashboardId]);
 
   return (
     <div className='flex size-full flex-col items-center justify-start gap-4 p-4'>
       <div className='text-4xl font-bold'>Single Dashboard Page</div>
+      <p>{title}</p>
 
       <div className='flex size-full justify-between gap-4'>
         <div className='h-full w-44 bg-red-200 p-2'>

@@ -6,7 +6,7 @@ export type Dashboard = {
   /**
    * A dashboard's display name.
    */
-  name: string;
+  title: string;
   settings?: DashboardSettings;
   createdAt: number | string;
   widgetsLayout: Array<Widget>;

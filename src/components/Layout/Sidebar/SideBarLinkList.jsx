@@ -20,9 +20,9 @@ const routesRaw = [
     activeNames: ['/home', '/'],
   },
   {
-    to: '/dashboards/1',
-    text: 'Dashboard',
-    activeNames: ['/dashboard'],
+    to: '/dashboards',
+    text: 'Dashboards List',
+    activeNames: ['/dashboards'],
   },
   {
     to: '/some-url',

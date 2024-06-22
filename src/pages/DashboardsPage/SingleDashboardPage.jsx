@@ -2,22 +2,30 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { widgetsMapper } from '../../components/customWidgets/widgetsMapper';
 import Dashboard from '../../components/dashboards/Dashboard';
-import { dashboards } from './mockDB';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { dashboards, widgets } from './mockDatabase';
 
 export default function SingleDashboardPage() {
   const { id: dashboardId } = useParams();
 
+  const { value: allDashboards, setValue: setDashboards } = useLocalStorage('dashboards', dashboards);
+
   const {
-    title,
     data,
+    title,
     settings: dashboardSettings,
   } = useMemo(() => {
-    const currentDashboard = dashboards.find((currentDashboard) => currentDashboard.id.toString() === dashboardId);
+    const selectedDashboard = allDashboards.find((dashboard) => dashboard.id.toString() === dashboardId);
 
-    if (!currentDashboard?.data) return { ...currentDashboard, widgetsLayout: [] };
-
-    return currentDashboard;
-  }, [dashboardId]);
+    const extendedDashboard = {
+      ...selectedDashboard,
+      data: selectedDashboard.data.map((dashboardWidget) => {
+        const matchWidgetWithData = widgets.find((currentWidget) => currentWidget.id === dashboardWidget.i);
+        return { ...dashboardWidget, type: matchWidgetWithData.type, props: matchWidgetWithData.props };
+      }),
+    };
+    return extendedDashboard;
+  }, [allDashboards, dashboardId]);
 
   return (
     <div className='flex size-full flex-col items-center justify-start gap-4 p-4'>
@@ -28,8 +36,16 @@ export default function SingleDashboardPage() {
         <Dashboard
           data={data}
           settings={dashboardSettings}
-          onLayoutChange={(newLayout) => {
-            console.log('newLayout is:', newLayout);
+          onLayoutChange={({ newLayout }) => {
+            setDashboards((prevDashboards) => {
+              const newDashboards = prevDashboards.map((dashboard) => {
+                if (dashboard.id.toString() === dashboardId) return { ...dashboard, data: newLayout };
+
+                return dashboard;
+              });
+
+              return newDashboards;
+            });
           }}
           widgetsTypeToRendererMapper={widgetsMapper}
         />

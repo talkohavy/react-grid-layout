@@ -80,7 +80,7 @@ export type IDashboard = {
    * It holds a mapping between a widget's id, to its position on the dashboard,
    * size, and other properties (like static or isResizable).
    */
-  data: Array<IWidgetLayout>;
+  data: Array<Layout>;
 };
 
 export type IWidgetLayout = Layout & {

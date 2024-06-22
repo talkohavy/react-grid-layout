@@ -1,25 +1,31 @@
-import { useMemo, useState } from 'react';
-import clsx from 'clsx';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { widgetsMapper } from '../../components/customWidgets/widgetsMapper';
 import Dashboard from '../../components/dashboards/Dashboard';
-import { dashboards } from './mockDB';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { dashboards, widgets } from './mockDatabase';
 
 export default function SingleDashboardPage() {
-  const { id } = useParams();
-  const [dashboardId, setDashboardId] = useState(+id);
+  const { id: dashboardId } = useParams();
+
+  const { value: allDashboards, setValue: setDashboards } = useLocalStorage('dashboards', dashboards);
 
   const {
+    data,
     title,
-    data: widgetsLayout,
     settings: dashboardSettings,
   } = useMemo(() => {
-    const currentDashboard = dashboards.find((currentDashboard) => currentDashboard.id === dashboardId);
+    const selectedDashboard = allDashboards.find((dashboard) => dashboard.id.toString() === dashboardId);
 
-    if (!currentDashboard?.data) return { ...currentDashboard, widgetsLayout: [] };
-
-    return currentDashboard;
-  }, [dashboardId]);
+    const extendedDashboard = {
+      ...selectedDashboard,
+      data: selectedDashboard.data.map((dashboardWidget) => {
+        const matchWidgetWithData = widgets.find((currentWidget) => currentWidget.id === dashboardWidget.i);
+        return { ...dashboardWidget, type: matchWidgetWithData.type, props: matchWidgetWithData.props };
+      }),
+    };
+    return extendedDashboard;
+  }, [allDashboards, dashboardId]);
 
   return (
     <div className='flex size-full flex-col items-center justify-start gap-4 p-4'>
@@ -27,30 +33,20 @@ export default function SingleDashboardPage() {
       <p>{title}</p>
 
       <div className='flex size-full justify-between gap-4'>
-        <div className='h-full w-44 bg-red-200 p-2'>
-          <div
-            className={clsx('cursor-pointer hover:text-red-500', dashboardId === 1 && 'text-blue-500')}
-            onClick={() => setDashboardId(1)}
-          >
-            dashboard 1
-          </div>
-          <div
-            className={clsx('cursor-pointer hover:text-red-500', dashboardId === 2 && 'text-blue-500')}
-            onClick={() => setDashboardId(2)}
-          >
-            dashboard 2
-          </div>
-          <div
-            className={clsx('cursor-pointer hover:text-red-500', dashboardId === 3 && 'text-blue-500')}
-            onClick={() => setDashboardId(3)}
-          >
-            dashboard 3
-          </div>
-        </div>
         <Dashboard
-          data={widgetsLayout}
+          data={data}
           settings={dashboardSettings}
-          onLayoutChange={console.log}
+          onLayoutChange={({ newLayout }) => {
+            setDashboards((prevDashboards) => {
+              const newDashboards = prevDashboards.map((dashboard) => {
+                if (dashboard.id.toString() === dashboardId) return { ...dashboard, data: newLayout };
+
+                return dashboard;
+              });
+
+              return newDashboards;
+            });
+          }}
           widgetsTypeToRendererMapper={widgetsMapper}
         />
       </div>

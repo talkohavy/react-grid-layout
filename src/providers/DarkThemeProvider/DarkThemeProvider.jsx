@@ -6,7 +6,7 @@ import { DarkThemeContext } from './DarkThemeContext';
 export const THEME_OPTIONS = { dark: 'dark', light: 'light' };
 
 export default function DarkThemeProvider({ children }) {
-  const { value: localStorageTheme, setValue: setLocalStorageTheme } = useLocalStorage(LSKEY_THEME);
+  const { value: localStorageTheme, setValue: setLocalStorageTheme } = useLocalStorage(LSKEY_THEME, 'light');
 
   // all useStates:
   const [isDarkMode, setIsDarkMode] = useState(() => {

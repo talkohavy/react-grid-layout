@@ -1,9 +1,10 @@
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout/index';
+import SingleDashboardPage from './pages/DashboardsPage/SingleDashboardPage';
 
 const HomePage = lazy(() => import('./pages/Home'));
-const SingleDashboardPage = lazy(() => import('./pages/DashboardsPage/SingleDashboardPage'));
+const DashboardsPage = lazy(() => import('./pages/DashboardsPage'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path='/index.html' element={<HomePage />} />
           <Route path='/' element={<HomePage />} />
+          <Route path='/dashboards' element={<DashboardsPage />} />
           <Route path='/dashboards/:id' element={<SingleDashboardPage />} />
 
           <Route path='*' element={<PageNotFound />} />

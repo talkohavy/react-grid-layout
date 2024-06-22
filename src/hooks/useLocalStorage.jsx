@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { THEME_OPTIONS } from '../providers/DarkThemeProvider/DarkThemeProvider';
 
 /**
  * @description
  * If you want something a little bit more temporary, you could change localStorage into sessionStorage instead of localStorage.
  * It's the same idea of storing the data upon page refresh. However, sessionStorage is removed when the session ended,
  * so when you close the browser the session is gone when the user comes back.
- * @param { string } key - The key under which the value is stored inside the localStorage.
+ * @param {string} key - The key under which the value is stored inside the localStorage.
+ * @param {any} defaultValue
  * @returns {{
  *   value: any,
  *   setValue: React.Dispatch<any>,
@@ -27,11 +27,19 @@ import { THEME_OPTIONS } from '../providers/DarkThemeProvider/DarkThemeProvider'
  * // Step 4: use the delete function to delete the stored value under `key` from your localStorage
  * deleteValue(key);
  */
-export function useLocalStorage(key) {
+export function useLocalStorage(key, defaultValue) {
   const [value, setValue] = useState(() => {
-    const themeRaw = localStorage.getItem(key);
+    const item = localStorage.getItem(key);
 
-    return THEME_OPTIONS[themeRaw] ?? JSON.parse(themeRaw);
+    if (item) {
+      try {
+        return JSON.parse(item);
+      } catch (_error) {
+        return item;
+      }
+    }
+
+    return defaultValue;
   });
 
   useEffect(() => {

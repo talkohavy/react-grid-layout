@@ -5,31 +5,28 @@ import { DASHBOARD_DEFAULT_ROW_HEIGHT } from './constants';
 import DashboardWrapper from './DashboardWrapper';
 import GridOverlay from './GridOverlay';
 import { getMergedDashboardSettings, runValidationsOnData } from './helpers';
-import Widget from './Widget';
 import './dashboards.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 /**
  * @typedef {import('react-grid-layout').Layout} Layout
- * @typedef {import('./types').IWidgetLayout} IWidgetLayout
  * @typedef {import('./types').DashboardSettings} DashboardSettings
  * @typedef {import('./types').WidgetsTypeToRendererMapper} WidgetsTypeToRendererMapper
  * @typedef {import('./types').OnChangeLayoutProps} OnChangeLayoutProps
  * @typedef {{
- *   data: Array<IWidgetLayout>;
+ *   data: Array<Layout>;
  *   settings?: DashboardSettings;
- *   widgetsTypeToRendererMapper?: WidgetsTypeToRendererMapper;
  *   onLayoutChange?: (props: OnChangeLayoutProps) => void;
  *   className?: string;
  * }} DashboardProps
  */
 
 /**
- * @param {DashboardProps} props
+ * @param {import('react').PropsWithChildren<DashboardProps>} props
  */
 export default function Dashboard(props) {
-  const { data, settings: settingsToMerge, widgetsTypeToRendererMapper, onLayoutChange, className } = props;
+  const { children, data, settings: settingsToMerge, onLayoutChange, className } = props;
 
   useMemo(() => runValidationsOnData(data), [data]);
 
@@ -122,23 +119,6 @@ export default function Dashboard(props) {
     setHorizontalLinesCount(newHorizontalLinesCount);
   };
 
-  // It is recommended by react-grid-layout to memoize the children:
-  const childrenMemoized = useMemo(
-    () =>
-      data.map(({ type, props, ...currentWidgetLayout }) => (
-        <div key={currentWidgetLayout.i}>
-          <Widget
-            type={type}
-            widgetLayout={currentWidgetLayout}
-            props={props}
-            gapBetweenWidgets={settings.dashboard.gapBetweenWidgets}
-            widgetsTypeToRendererMapper={widgetsTypeToRendererMapper}
-          />
-        </div>
-      )),
-    [data, settings.dashboard.gapBetweenWidgets, widgetsTypeToRendererMapper],
-  );
-
   return (
     <DashboardWrapper className={className} style={{ direction: 'ltr', padding: settings.dashboard.gapFromWalls }}>
       <div
@@ -194,7 +174,7 @@ export default function Dashboard(props) {
           onDrag={onDragCalculateVerticalGridLinesHeight}
           style={{ height: '100%' }} // <--- without this, react-grid-layout calculates a fixed value for the height based on highest stacked "tower" of widgets.
         >
-          {childrenMemoized}
+          {children}
         </ResponsiveGridLayout>
       </div>
     </DashboardWrapper>

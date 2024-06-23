@@ -1,28 +1,36 @@
 import BarChart from '../../charts/BarChart';
+import Undraggable from '../../dashboards/Widget/Undraggable';
 import TopBar from '../TopBar';
 
+/**
+ * @param {{
+ *   dashboardId: string,
+ *   widgetId: string
+ * }} props
+ */
 export default function BarChartWidget(props) {
-  const { id: widgetId } = props;
-  console.log('BarChartWidget props is:', props);
+  const { dashboardId, widgetId } = props;
 
   return (
     <div className='size-full'>
-      <TopBar widgetId={widgetId} />
+      <TopBar dashboardId={dashboardId} widgetId={widgetId} />
 
-      <BarChart
-        bars={[
-          {
-            name: 'Bar 1',
-            data: [
-              { x: 1, y: 10 },
-              { x: 2, y: 20 },
-              { x: 3, y: 30 },
-              { x: 4, y: 40 },
-              { x: 5, y: 50 },
-            ],
-          },
-        ]}
-      />
+      <Undraggable>
+        <BarChart
+          bars={[
+            {
+              name: 'Bar 1',
+              data: [
+                { x: 1, y: 10 },
+                { x: 2, y: 20 },
+                { x: 3, y: 30 },
+                { x: 4, y: 40 },
+                { x: 5, y: 50 },
+              ],
+            },
+          ]}
+        />
+      </Undraggable>
     </div>
   );
 }

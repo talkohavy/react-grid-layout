@@ -1,31 +1,20 @@
-import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { widgetsMapper } from '../../components/customWidgets/widgetsMapper';
 import Dashboard from '../../components/dashboards/Dashboard';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { dashboards, widgets } from './mockDatabase';
+import Widget from '../../components/dashboards/Widget';
+import { updateDashboardFlow } from '../../store/slices/dashboards';
+import { getDashboardDataSelector } from '../../store/slices/dashboards/selectors';
 
 export default function SingleDashboardPage() {
   const { id: dashboardId } = useParams();
 
-  const { value: allDashboards, setValue: setDashboards } = useLocalStorage('dashboards', dashboards);
+  const dashboard = useSelector(getDashboardDataSelector(dashboardId));
+  const dispatch = useDispatch();
 
-  const {
-    data,
-    title,
-    settings: dashboardSettings,
-  } = useMemo(() => {
-    const selectedDashboard = allDashboards.find((dashboard) => dashboard.id.toString() === dashboardId);
+  if (!dashboard) return <div>Dashboard not found</div>;
 
-    const extendedDashboard = {
-      ...selectedDashboard,
-      data: selectedDashboard.data.map((dashboardWidget) => {
-        const matchWidgetWithData = widgets.find((currentWidget) => currentWidget.id === dashboardWidget.i);
-        return { ...dashboardWidget, type: matchWidgetWithData.type, props: matchWidgetWithData.props };
-      }),
-    };
-    return extendedDashboard;
-  }, [allDashboards, dashboardId]);
+  const { id, data, title, settings: dashboardSettings } = dashboard;
 
   return (
     <div className='flex size-full flex-col items-center justify-start gap-4 p-4'>
@@ -37,18 +26,22 @@ export default function SingleDashboardPage() {
           data={data}
           settings={dashboardSettings}
           onLayoutChange={({ newLayout }) => {
-            setDashboards((prevDashboards) => {
-              const newDashboards = prevDashboards.map((dashboard) => {
-                if (dashboard.id.toString() === dashboardId) return { ...dashboard, data: newLayout };
-
-                return dashboard;
-              });
-
-              return newDashboards;
-            });
+            dispatch(updateDashboardFlow({ id, layout: newLayout }));
           }}
-          widgetsTypeToRendererMapper={widgetsMapper}
-        />
+        >
+          {/* For future reference, it is recommended by react-grid-layout to memoize the children */}
+          {data.map((widget) => {
+            const { i: widgetId, type, props } = widget;
+
+            return (
+              <div key={widgetId}>
+                <Widget gapBetweenWidgets={dashboardSettings.dashboard.gapBetweenWidgets}>
+                  {widgetsMapper[type]({ dashboardId, widgetId, ...props })}
+                </Widget>
+              </div>
+            );
+          })}
+        </Dashboard>
       </div>
     </div>
   );

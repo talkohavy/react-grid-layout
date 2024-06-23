@@ -30,7 +30,6 @@ function createMiddleware({ uniquePrefix = '*', handleAction }) {
    */
   function shouldThisMiddlewareHandleTheAction(action) {
     const shouldHandleAction = regex.test(action.type);
-    // debugger;
 
     return shouldHandleAction;
   }
@@ -38,7 +37,6 @@ function createMiddleware({ uniquePrefix = '*', handleAction }) {
   function reduxEnhancerReturnsAMiddleware({ dispatch, getState }) {
     return function reduxMiddleware(next) {
       return function actBasedOnAction(action) {
-        // debugger;
         next(action);
 
         if (shouldThisMiddlewareHandleTheAction(action)) handleAction({ dispatch, getState, action });

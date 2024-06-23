@@ -1,8 +1,13 @@
 import LineChart from '../../charts/LineChart';
+import TopBar from '../TopBar';
 
-export default function LineChartWidget() {
+export default function LineChartWidget(props) {
+  const { id: widgetId } = props;
+
   return (
     <div className='size-full'>
+      <TopBar widgetId={widgetId} />
+
       <LineChart
         lines={[
           {

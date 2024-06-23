@@ -22,7 +22,7 @@ export default function Select({ selectedOption, setOption, options, className }
         setOption(selectedOption);
       }}
       className={clsx(
-        'h-8 cursor-pointer rounded-md border p-1 hover:border-blue-400 focus:border-blue-600',
+        'h-8 cursor-pointer rounded-md border border-black p-1 hover:border-blue-400 focus:border-blue-600',
         className,
       )}
     >

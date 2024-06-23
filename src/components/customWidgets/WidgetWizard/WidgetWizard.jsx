@@ -46,7 +46,7 @@ export default function WidgetWizard(props) {
       <Title className='mb-3 text-xl font-medium text-black'>Add New Widget</Title>
 
       <fieldset className='mb-4 flex items-center gap-5'>
-        <label className='flex w-[90px] items-center justify-start gap-2 text-right text-[15px] text-purple-400'>
+        <label className='flex w-[90px] items-center justify-start gap-2 text-right text-[15px] text-purple-600'>
           <div>Type</div>
 
           <Select selectedOption={type} setOption={setType} options={typeOptionsArr} />

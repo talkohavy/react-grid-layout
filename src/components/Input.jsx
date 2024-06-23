@@ -3,7 +3,7 @@ export default function Input({ value, setValue, placeholder = '' }) {
     <input
       value={value}
       onChange={(e) => setValue(e.target.value)}
-      className='h-10 w-72 rounded-md border border-black p-2'
+      className='h-10 w-72 rounded-md border border-black p-2 focus:border-blue-600'
       placeholder={placeholder}
     />
   );

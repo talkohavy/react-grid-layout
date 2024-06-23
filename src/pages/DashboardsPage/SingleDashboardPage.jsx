@@ -1,15 +1,18 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { widgetsMapper } from '../../components/customWidgets/widgetsMapper';
+import WidgetWizard from '../../components/customWidgets/WidgetWizard';
 import Dashboard from '../../components/dashboards/Dashboard';
 import Widget from '../../components/dashboards/Widget';
-import { updateDashboardFlow } from '../../store/slices/dashboards';
+import { createNewWidgetFlow, updateDashboardFlow } from '../../store/slices/dashboards';
 import { getDashboardDataSelector } from '../../store/slices/dashboards/selectors';
 
 export default function SingleDashboardPage() {
   const { id: dashboardId } = useParams();
 
   const dashboard = useSelector(getDashboardDataSelector(dashboardId));
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
   if (!dashboard) return <div>Dashboard not found</div>;
@@ -19,7 +22,24 @@ export default function SingleDashboardPage() {
   return (
     <div className='flex size-full flex-col items-center justify-start gap-4 p-4'>
       <div className='text-4xl font-bold'>Single Dashboard Page</div>
-      <p>{title}</p>
+
+      <div className='flex w-full items-center justify-between'>
+        <p>Title: {title}</p>
+
+        <button
+          type='button'
+          onClick={() => setIsModalOpen(true)}
+          className='rounded-lg border bg-neutral-50 px-1 py-2 hover:bg-red-300'
+        >
+          + Add Widget
+        </button>
+      </div>
+
+      <WidgetWizard
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        onConfirmClick={(widget) => dispatch(createNewWidgetFlow({ dashboardId, widget }))}
+      />
 
       <div className='flex size-full justify-between gap-4'>
         <Dashboard
@@ -29,7 +49,6 @@ export default function SingleDashboardPage() {
             dispatch(updateDashboardFlow({ id, layout: newLayout }));
           }}
         >
-          {/* For future reference, it is recommended by react-grid-layout to memoize the children */}
           {data.map((widget) => {
             const { i: widgetId, type, props } = widget;
 

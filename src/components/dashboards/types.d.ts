@@ -83,10 +83,12 @@ export type IDashboard = {
   data: Array<Layout>;
 };
 
-export type IWidgetLayout = Layout & {
+export type IWidget = {
   type: string;
   props: any;
 };
+
+export type IWidgetLayout = IWidget & Layout;
 
 export type OnChangeLayoutProps = {
   newLayout: Array<Layout>;

@@ -55,23 +55,27 @@ export default function Dashboard(props) {
     if (hasChanged) onLayoutChange?.({ newLayout, widgetBefore, widgetAfter });
   };
 
-  const setHorizontalLinesCountAndVerticalLinesHeight = useCallback(({ dashboardHeight = 0 }) => {
-    // Step 1: calculate verticalLinesHeight
-    // @ts-ignore
-    const newMaxHeight = Math.max(dashboardRef.current.clientHeight, dashboardHeight);
-    const newVerticalLinesHeight =
-      Math.floor(newMaxHeight / DASHBOARD_DEFAULT_ROW_HEIGHT) * DASHBOARD_DEFAULT_ROW_HEIGHT;
-    if (prevVerticalLinesHeight.current === newVerticalLinesHeight) return;
-    prevVerticalLinesHeight.current = newVerticalLinesHeight;
+  const setHorizontalLinesCountAndVerticalLinesHeight = useCallback(
+    ({ dashboardHeight = 0 }) => {
+      const rowHeight = settings.dashboard.props.rowHeight ?? DASHBOARD_DEFAULT_ROW_HEIGHT;
 
-    // Step 2: calculate horizontalLinesCount from verticalLinesHeight
-    const newHorizontalLinesCount = Math.ceil((newVerticalLinesHeight + 1) / DASHBOARD_DEFAULT_ROW_HEIGHT);
-    if (prevHorizontalLinesCount.current === newHorizontalLinesCount) return;
-    prevHorizontalLinesCount.current = newHorizontalLinesCount;
+      // Step 1: calculate verticalLinesHeight
+      // @ts-ignore
+      const newMaxHeight = Math.max(dashboardRef.current.clientHeight, dashboardHeight);
+      const newVerticalLinesHeight = Math.floor(newMaxHeight / rowHeight) * rowHeight;
+      if (prevVerticalLinesHeight.current === newVerticalLinesHeight) return;
+      prevVerticalLinesHeight.current = newVerticalLinesHeight;
 
-    setHorizontalLinesCount(newHorizontalLinesCount);
-    setVerticalLinesHeight(newVerticalLinesHeight);
-  }, []);
+      // Step 2: calculate horizontalLinesCount from verticalLinesHeight
+      const newHorizontalLinesCount = Math.ceil((newVerticalLinesHeight + 1) / rowHeight);
+      if (prevHorizontalLinesCount.current === newHorizontalLinesCount) return;
+      prevHorizontalLinesCount.current = newHorizontalLinesCount;
+
+      setHorizontalLinesCount(newHorizontalLinesCount);
+      setVerticalLinesHeight(newVerticalLinesHeight);
+    },
+    [settings.dashboard.props.rowHeight],
+  );
 
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {
@@ -89,6 +93,8 @@ export default function Dashboard(props) {
    * @param {Array<Layout>} newLayout
    */
   const onDragCalculateVerticalGridLinesHeight = (newLayout) => {
+    const rowHeight = settings.dashboard.props.rowHeight ?? DASHBOARD_DEFAULT_ROW_HEIGHT;
+
     const maxHeight = newLayout.reduce(
       /**
        * @param {number} maxHeight
@@ -106,13 +112,13 @@ export default function Dashboard(props) {
     // Step 1: calculate verticalLine height
     // @ts-ignore
     const heightOfDashboardBoxWrapper = dashboardRef.current.clientHeight;
-    const heightNeededForLowestWidget = maxHeight * DASHBOARD_DEFAULT_ROW_HEIGHT;
+    const heightNeededForLowestWidget = maxHeight * rowHeight;
     const newVerticalLinesHeight = Math.max(heightNeededForLowestWidget, heightOfDashboardBoxWrapper);
 
     setVerticalLinesHeight(newVerticalLinesHeight);
 
     // Step 2: calculate horizontalLinesCount from verticalLinesHeight
-    const newHorizontalLinesCount = Math.ceil((newVerticalLinesHeight + 1) / DASHBOARD_DEFAULT_ROW_HEIGHT);
+    const newHorizontalLinesCount = Math.ceil((newVerticalLinesHeight + 1) / rowHeight);
     if (prevHorizontalLinesCount.current === newHorizontalLinesCount) return;
     prevHorizontalLinesCount.current = newHorizontalLinesCount;
 
@@ -130,6 +136,7 @@ export default function Dashboard(props) {
         {(settings.grid.alwaysVisible || isShowGridLines) && (
           <GridOverlay
             {...settings.grid.props}
+            rowHeight={settings.dashboard.props.rowHeight}
             horizontalLinesCount={horizontalLinesCount}
             height={verticalLinesHeight}
           />

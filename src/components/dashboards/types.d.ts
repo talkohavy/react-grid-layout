@@ -42,7 +42,7 @@ export type DashboardSettings = {
     /**
      * row's height in pixels
      */
-    rowHeight?: 50;
+    rowHeight?: number;
   };
   dashboard?: {
     /**

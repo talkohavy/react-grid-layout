@@ -1,12 +1,18 @@
 import LineChart from '../../charts/LineChart';
 import TopBar from '../TopBar';
 
+/**
+ * @param {{
+ *   dashboardId: string,
+ *   widgetId: string
+ * }} props
+ */
 export default function LineChartWidget(props) {
-  const { id: widgetId } = props;
+  const { dashboardId, widgetId } = props;
 
   return (
     <div className='size-full'>
-      <TopBar widgetId={widgetId} />
+      <TopBar dashboardId={dashboardId} widgetId={widgetId} />
 
       <LineChart
         lines={[

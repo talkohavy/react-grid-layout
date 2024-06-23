@@ -1,5 +1,5 @@
 import DashboardsList from './DashboardsList';
-import { dashboards } from './mockDB';
+import { dashboards } from './mockDatabase';
 
 export default function DashboardsPage() {
   return (

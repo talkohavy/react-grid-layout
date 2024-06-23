@@ -1,3 +1,7 @@
+.react-grid-item.react-draggable {
+  cursor: move;
+}
+
 .react-resizable-handle.react-resizable-handle-se {
   right: 8px !important;
   bottom: 8px !important;

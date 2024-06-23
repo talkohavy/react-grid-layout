@@ -2,6 +2,9 @@ export const allDashboardsSelector = (state) => state.dashboards.dashboards ?? [
 
 export const allWidgetsSelector = (state) => state.dashboards.widgets ?? [];
 
+export const getDashboardByIdSelector = (id) => (state) =>
+  state.dashboards.dashboards.find((dashboard) => id === dashboard.id.toString());
+
 export const getDashboardDataSelector = (dashboardId) => (state) => {
   const { dashboards, widgets } = state.dashboards;
 

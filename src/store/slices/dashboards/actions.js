@@ -26,4 +26,22 @@ const createNewWidgetFlow = createAction(
   (payload) => ({ payload }),
 );
 
-export { createNewWidgetFlow, removeWidgetFromDashboardFlow, updateDashboardFlow };
+const addWidgetToDashboardFlow = createAction(
+  customActionString('Add Widget to Dashboard'),
+  /** @param {{dashboardId: string, widgetId: string}} payload */
+  (payload) => ({ payload }),
+);
+
+const deleteWidgetFromWidgetsPoolFlow = createAction(
+  customActionString('Delete Widget from pool'),
+  /** @param {{widgetId: string}} payload */
+  (payload) => ({ payload }),
+);
+
+export {
+  addWidgetToDashboardFlow,
+  createNewWidgetFlow,
+  deleteWidgetFromWidgetsPoolFlow,
+  removeWidgetFromDashboardFlow,
+  updateDashboardFlow,
+};

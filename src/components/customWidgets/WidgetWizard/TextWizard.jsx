@@ -4,10 +4,10 @@ import NumberInput from '../../NumberInput';
 import Select from '../../Select';
 
 const fontWeightOptions = {
-  light: { value: 'light', label: 'light' },
+  lighter: { value: 'lighter', label: 'lighter' },
   normal: { value: 'normal', label: 'normal' },
-  semiBold: { value: 'semiBold', label: 'semi-bold' },
   bold: { value: 'bold', label: 'bold' },
+  bolder: { value: 'bolder', label: 'bolder' },
 };
 
 const fontWeightOptionsArr = Object.values(fontWeightOptions);
@@ -20,12 +20,12 @@ export default function TextWizard(props) {
 
   const [textContent, setTextContent] = useState('');
   const [fontSize, setFontSize] = useState(16);
-  const [fontWeight, setFontWeight] = useState(fontWeightOptions.normal);
+  const [fontWeightOption, setFontWeightOption] = useState(fontWeightOptions.normal);
 
   useEffect(() => {
-    refProps.current = { textContent, fontSize };
+    refProps.current = { textContent, fontSize, fontWeight: fontWeightOption.value };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [textContent, fontSize]);
+  }, [textContent, fontSize, fontWeightOption]);
 
   return (
     <div>
@@ -49,7 +49,7 @@ export default function TextWizard(props) {
         <label className='flex w-full flex-col items-start justify-start gap-2 text-right text-[15px] text-purple-600'>
           <div>Font Weight:</div>
 
-          <Select selectedOption={fontWeight} setOption={setFontWeight} options={fontWeightOptionsArr} />
+          <Select selectedOption={fontWeightOption} setOption={setFontWeightOption} options={fontWeightOptionsArr} />
         </label>
       </fieldset>
     </div>

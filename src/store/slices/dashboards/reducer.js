@@ -96,10 +96,11 @@ const dashboardsSlice = createSlice({
 
 export const {
   addWidgetToDashboard,
+  addWidgetToWidgetsPool,
+  deleteWidgetFromWidgetsPool,
   removeWidgetFromDashboard,
   updateDashboardLayout,
   updateDashboardSettings,
-  addWidgetToWidgetsPool,
 } = dashboardsSlice.actions;
 export { createSlice, name };
 export const dashboardsReducer = dashboardsSlice.reducer;

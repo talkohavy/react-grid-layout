@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+import { DEFAULT_TOAST_CONTAINER_OPTIONS } from '../../toaster/toaster';
 import Header from './Header';
 import Main from './Main';
 import Sidebar from './Sidebar';
@@ -12,6 +14,8 @@ export default function Layout({ children }) {
 
         <Main>{children}</Main>
       </div>
+
+      <ToastContainer {...DEFAULT_TOAST_CONTAINER_OPTIONS} />
     </div>
   );
 }

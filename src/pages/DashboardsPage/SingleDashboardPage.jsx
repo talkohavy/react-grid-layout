@@ -7,6 +7,7 @@ import Dashboard from '../../components/dashboards/Dashboard';
 import Widget from '../../components/dashboards/Widget';
 import { createNewWidgetFlow, updateDashboardFlow } from '../../store/slices/dashboards';
 import { getDashboardDataSelector } from '../../store/slices/dashboards/selectors';
+import WidgetsPool from './WidgetsPool';
 
 export default function SingleDashboardPage() {
   const { id: dashboardId } = useParams();
@@ -20,7 +21,7 @@ export default function SingleDashboardPage() {
   const { id, data, title, settings: dashboardSettings } = dashboard;
 
   return (
-    <div className='flex size-full flex-col items-center justify-start gap-4 p-4'>
+    <div className='flex size-full flex-col items-center justify-start gap-4 overflow-auto p-4'>
       <div className='text-4xl font-bold'>Single Dashboard Page</div>
 
       <div className='flex w-full items-center justify-between'>
@@ -29,7 +30,7 @@ export default function SingleDashboardPage() {
         <button
           type='button'
           onClick={() => setIsModalOpen(true)}
-          className='rounded-lg border bg-neutral-50 px-1 py-2 hover:bg-red-300'
+          className='rounded-lg border bg-neutral-50 p-2 hover:bg-red-300'
         >
           + Add Widget
         </button>
@@ -41,7 +42,7 @@ export default function SingleDashboardPage() {
         onConfirmClick={(widget) => dispatch(createNewWidgetFlow({ dashboardId, widget }))}
       />
 
-      <div className='flex size-full justify-between gap-4'>
+      <div className='flex size-full min-h-xl justify-between gap-4'>
         <Dashboard
           data={data}
           settings={dashboardSettings}
@@ -62,6 +63,8 @@ export default function SingleDashboardPage() {
           })}
         </Dashboard>
       </div>
+
+      <WidgetsPool dashboardId={dashboardId} />
     </div>
   );
 }

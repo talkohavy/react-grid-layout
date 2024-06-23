@@ -1,8 +1,17 @@
+import clsx from 'clsx';
+
 /**
- * @param {import('react').PropsWithChildren} props
+ * @param {import('react').PropsWithChildren<{
+ *   className?: string,
+ *   style?: any
+ * }>} props
  */
 export default function Undraggable(props) {
-  const { children } = props;
+  const { children, className, style } = props;
 
-  return <div className='do-not-drag-me size-full cursor-default'>{children}</div>;
+  return (
+    <div className={clsx('do-not-drag-me size-full cursor-default', className)} style={style}>
+      {children}
+    </div>
+  );
 }

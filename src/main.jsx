@@ -9,7 +9,7 @@ import DarkThemeProvider from './providers/DarkThemeProvider';
 import { initSessionManager } from './SessionManager';
 import { createStore } from './store';
 import './index.css';
-import 'react-grid-layout/css/styles.css';
+import './bootstrap';
 
 const httpClientAxios = axios.create({ baseURL: 'http://localhost:8000', withCredentials: true });
 

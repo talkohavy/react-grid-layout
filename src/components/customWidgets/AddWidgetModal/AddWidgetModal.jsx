@@ -33,7 +33,7 @@ const WIZARD_BY_TYPE = {
  *   onCancelClick?: () => void,
  * }} props
  */
-export default function WidgetWizard(props) {
+export default function AddWidgetModal(props) {
   const { isModalOpen, setIsModalOpen, onCancelClick, onConfirmClick } = props;
 
   const [type, setType] = useState(typeOptions.BarChart);

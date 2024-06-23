@@ -5,15 +5,16 @@ import TopBar from '../TopBar';
 /**
  * @param {{
  *   dashboardId: string,
- *   widgetId: string
+ *   widgetId: string,
+ *   onEditWidgetMenuItemClick: () => void
  * }} props
  */
 export default function BarChartWidget(props) {
-  const { dashboardId, widgetId } = props;
+  const { dashboardId, widgetId, onEditWidgetMenuItemClick } = props;
 
   return (
     <div className='size-full'>
-      <TopBar dashboardId={dashboardId} widgetId={widgetId} />
+      <TopBar dashboardId={dashboardId} widgetId={widgetId} onEditWidgetMenuItemClick={onEditWidgetMenuItemClick} />
 
       <Undraggable>
         <BarChart

@@ -56,6 +56,8 @@ export const dashboards = [
     settings: {
       grid: {
         color: '#ccc',
+        columnCount: 12,
+        rowHeight: 30,
         // alwaysVisible: true,
       },
       dashboard: {

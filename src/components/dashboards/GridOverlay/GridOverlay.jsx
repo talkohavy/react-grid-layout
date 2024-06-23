@@ -1,11 +1,11 @@
 import HorizontalLines from './HorizontalLines';
 import VerticalLines from './VerticalLines';
 
-export default function DashboardGrid({ horizontalLinesCount, verticalLinesCount, height, color }) {
+export default function GridOverlay({ horizontalLinesCount, verticalLinesCount, rowHeight, height, color }) {
   return (
     <>
       <VerticalLines verticalLinesCount={verticalLinesCount} height={height} color={color} />
-      <HorizontalLines horizontalLinesCount={horizontalLinesCount} color={color} />
+      <HorizontalLines horizontalLinesCount={horizontalLinesCount} rowHeight={rowHeight} color={color} />
     </>
   );
 }

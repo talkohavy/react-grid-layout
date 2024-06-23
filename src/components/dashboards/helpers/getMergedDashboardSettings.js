@@ -22,11 +22,13 @@ function getMergedDashboardSettings(props) {
   const { settingsToMerge } = props;
   const { dashboard, grid } = settingsToMerge ?? {};
 
+  const columnsCount = grid?.columnCount ?? DASHBOARD_DEFAULT_COLUMN_COUNT;
+
   return {
     grid: {
       alwaysVisible: grid?.alwaysVisible ?? false,
       props: {
-        verticalLinesCount: DASHBOARD_DEFAULT_COLUMN_COUNT + 1, // <--- this value should match (dashboard.props.cols.lg + 1) exactly.
+        verticalLinesCount: columnsCount + 1, // <--- this value should match (dashboard.props.cols.lg + 1) exactly.
         color: grid?.color ?? DASHBOARD_DEFAULT_LINES_COLOR,
       },
     },
@@ -38,7 +40,7 @@ function getMergedDashboardSettings(props) {
         isBounded: dashboard?.isBounded ?? false,
         allowOverlap: dashboard?.allowOverlap ?? false,
         compactType: COMPACT_TYPE[dashboard?.floatType ?? 'to-top'],
-        cols: { lg: grid?.columnCount ?? DASHBOARD_DEFAULT_COLUMN_COUNT },
+        cols: { lg: columnsCount },
         rowHeight: grid?.rowHeight ?? DASHBOARD_DEFAULT_ROW_HEIGHT, // <--- if `undefined` (which currently is impossible), react-grid-layout defaults to 150
         // fixed values:
         breakpoints: { lg: DASHBOARD_DEFAULT_BREAKPOINT_SIZES.lg },

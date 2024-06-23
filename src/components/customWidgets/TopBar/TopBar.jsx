@@ -9,8 +9,7 @@ import DropdownMenu from '../../DropdownMenu';
  * @typedef {{
  *   dashboardId: string,
  *   widgetId: string,
- *   testId?: string,
- *   testItemIndex?: string
+ *   onEditWidgetMenuItemClick: (widgetId: string) => void
  * }} TopBarProps
  */
 
@@ -18,7 +17,7 @@ import DropdownMenu from '../../DropdownMenu';
  * @param {TopBarProps} props
  */
 export default function TopBar(props) {
-  const { dashboardId, widgetId } = props;
+  const { dashboardId, widgetId, onEditWidgetMenuItemClick } = props;
 
   const dispatch = useDispatch();
 
@@ -29,27 +28,16 @@ export default function TopBar(props) {
       {
         text: 'Edit Widget',
         icon: KebabIcon,
-        onClick: () => {
-          console.log('Edit Widget');
-          // setIsContextMenuOpen(false);
-          // setIsRenamePinModalOpen(true);
-        },
+        onClick: () => onEditWidgetMenuItemClick(widgetId),
       },
       {
         text: 'Remove Widget',
         icon: KebabIcon,
-        onClick: () => {
-          setIsDeleteWidgetModalOpen(true);
-        },
+        onClick: () => setIsDeleteWidgetModalOpen(true),
       },
     ],
-    [],
+    [widgetId, onEditWidgetMenuItemClick],
   );
-
-  // const onConfirmRenamePin = (value: string) => {
-  //   dispatch(renamePin({ pinId: widgetId, title: value }));
-  //   setIsRenamePinModalOpen(false);
-  // };
 
   return (
     <div className='pointer-events-none absolute right-0 top-0 flex w-full items-center justify-end p-1'>

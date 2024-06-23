@@ -64,14 +64,15 @@ const dashboardsSlice = createSlice({
     },
     /**
      * @param {*} state
-     * @param {import('@reduxjs/toolkit').PayloadAction<{ pinId: string; title: string }>} action
+     * @param {import('@reduxjs/toolkit').PayloadAction<{ widgetId: string, type: string; props: any }>} action
      */
     updateWidget: (state, action) => {
-      const { pinId, title } = action.payload;
+      const { widgetId, type, props } = action.payload;
 
-      const widget = state.widgets.find((widget) => widget.id === pinId);
+      const foundWidget = state.widgets.find((widget) => widget.id === widgetId);
 
-      widget.props.title = title;
+      foundWidget.type = type;
+      foundWidget.props = { ...foundWidget.props, ...props };
     },
     /**
      * @param {*} state
@@ -101,6 +102,7 @@ export const {
   removeWidgetFromDashboard,
   updateDashboardLayout,
   updateDashboardSettings,
+  updateWidget,
 } = dashboardsSlice.actions;
 export { createSlice, name };
 export const dashboardsReducer = dashboardsSlice.reducer;

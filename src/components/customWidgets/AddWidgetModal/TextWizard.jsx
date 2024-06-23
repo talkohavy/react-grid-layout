@@ -18,9 +18,14 @@ const fontWeightOptionsArr = Object.values(fontWeightOptions);
 export default function TextWizard(props) {
   const { refProps } = props;
 
-  const [textContent, setTextContent] = useState('');
-  const [fontSize, setFontSize] = useState(16);
-  const [fontWeightOption, setFontWeightOption] = useState(fontWeightOptions.normal);
+  // @ts-ignore
+  const [textContent, setTextContent] = useState(refProps.current.textContent ?? '');
+  // @ts-ignore
+  const [fontSize, setFontSize] = useState(refProps.current.fontSize ?? 16);
+  const [fontWeightOption, setFontWeightOption] = useState(
+    // @ts-ignore
+    fontWeightOptions[refProps.current.fontWeight] ?? fontWeightOptions.normal,
+  );
 
   useEffect(() => {
     refProps.current = { textContent, fontSize, fontWeight: fontWeightOption.value };

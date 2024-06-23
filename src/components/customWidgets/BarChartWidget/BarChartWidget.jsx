@@ -1,8 +1,14 @@
 import BarChart from '../../charts/BarChart';
+import TopBar from '../TopBar';
 
-export default function BarChartWidget() {
+export default function BarChartWidget(props) {
+  const { id: widgetId } = props;
+  console.log('BarChartWidget props is:', props);
+
   return (
     <div className='size-full'>
+      <TopBar widgetId={widgetId} />
+
       <BarChart
         bars={[
           {

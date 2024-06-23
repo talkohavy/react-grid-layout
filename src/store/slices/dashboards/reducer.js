@@ -1,14 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { dashboards as dashboardsRaw, widgets as widgetsRaw } from '../../../pages/DashboardsPage/mockDatabase';
 
+/**
+ * @typedef {import('react-grid-layout').Layout} Layout
+ * @typedef {import('../../../components/dashboards/types').IWidget} IWidget
+ */
+
 const name = 'dashboards';
 
 const dashboards = JSON.parse(localStorage.getItem('dashboards')) ?? dashboardsRaw;
 const widgets = JSON.parse(localStorage.getItem('widgets')) ?? widgetsRaw;
 
-/**
- * @typedef {import('react-grid-layout').Layout} Layout
- */
 // NOTICE! The initialState is exported for testing purposes only (Unit Tests)
 export const initialState = {
   dashboards,
@@ -22,10 +24,10 @@ const dashboardsSlice = createSlice({
     addWidgetToWidgetsPool:
       /**
        * @param {*} state
-       * @param {import('@reduxjs/toolkit').PayloadAction<{ pin: Layout }>} action
+       * @param {import('@reduxjs/toolkit').PayloadAction<{ widget: IWidget }>} action
        */
       (state, action) => {
-        state.widgets.push(action.payload.pin);
+        state.widgets.push(action.payload.widget);
       },
     /**
      * @param {*} state
@@ -38,10 +40,14 @@ const dashboardsSlice = createSlice({
     },
     /**
      * @param {*} state
-     * @param {import('@reduxjs/toolkit').PayloadAction<{ widget: Layout }>} action
+     * @param {import('@reduxjs/toolkit').PayloadAction<{ dashboardId: string, widget: Layout }>} action
      */
     addWidgetToDashboard: (state, action) => {
-      state.pinsDashboard.data.push(action.payload.widget);
+      const { dashboardId, widget } = action.payload;
+
+      const dashboardToUpdate = state.dashboards.find((dashboard) => dashboard.id.toString() === dashboardId);
+
+      dashboardToUpdate.data.push(widget);
     },
     /**
      * @param {*} state
@@ -88,7 +94,12 @@ const dashboardsSlice = createSlice({
   },
 });
 
-export const { addWidgetToDashboard, removeWidgetFromDashboard, updateDashboardLayout, updateDashboardSettings } =
-  dashboardsSlice.actions;
+export const {
+  addWidgetToDashboard,
+  removeWidgetFromDashboard,
+  updateDashboardLayout,
+  updateDashboardSettings,
+  addWidgetToWidgetsPool,
+} = dashboardsSlice.actions;
 export { createSlice, name };
 export const dashboardsReducer = dashboardsSlice.reducer;

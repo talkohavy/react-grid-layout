@@ -2,7 +2,9 @@ import { createAction } from '@reduxjs/toolkit';
 import { createActionString } from '../../helpers/createActionString';
 import { name } from './reducer';
 
-/** @typedef {import('./types').ApiRequest} ApiRequest */
+/**
+ * @typedef {import('../../../components/dashboards/types').IWidget} IWidget
+ */
 
 const customActionString = (actionString) => createActionString({ prefix: name, actionString });
 
@@ -18,4 +20,10 @@ const removeWidgetFromDashboardFlow = createAction(
   (payload) => ({ payload }),
 );
 
-export { removeWidgetFromDashboardFlow, updateDashboardFlow };
+const createNewWidgetFlow = createAction(
+  customActionString('Create new Widget'),
+  /** @param {{dashboardId: string, widget: IWidget}} payload */
+  (payload) => ({ payload }),
+);
+
+export { createNewWidgetFlow, removeWidgetFromDashboardFlow, updateDashboardFlow };

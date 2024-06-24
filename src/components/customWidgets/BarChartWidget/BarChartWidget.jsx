@@ -6,7 +6,7 @@ import TopBar from '../TopBar';
  * @param {{
  *   dashboardId: string,
  *   widgetId: string,
- *   onEditWidgetMenuItemClick: () => void
+ *   onEditWidgetMenuItemClick: (widgetId: string) => void
  * }} props
  */
 export default function BarChartWidget(props) {

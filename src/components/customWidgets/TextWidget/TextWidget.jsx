@@ -11,7 +11,7 @@ import TopBar from '../TopBar';
  *   textAlign: string,
  *   justifyContent: string,
  *   alignItems: string,
- *   onEditWidgetMenuItemClick: () => void
+ *   onEditWidgetMenuItemClick: (widgetId: string) => void
  * }} props
  */
 export default function TextWidget(props) {

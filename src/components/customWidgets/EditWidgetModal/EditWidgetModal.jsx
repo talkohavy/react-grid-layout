@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Title } from '@radix-ui/react-dialog';
-import { getWidgetByIdSelector } from '../../store/slices/dashboards/selectors';
-import BarChartWizard from '../customWidgets/AddWidgetModal/BarChartWizard';
-import LineChartWizard from '../customWidgets/AddWidgetModal/LineChartWizard';
-import TextWizard from '../customWidgets/AddWidgetModal/TextWizard';
-import Modal from '../Modal';
-import ModalFooter from '../Modal/ModalFooter';
-import Select from '../Select';
+import { getWidgetByIdSelector } from '../../../store/slices/dashboards/selectors';
+import Modal from '../../Modal';
+import ModalFooter from '../../Modal/ModalFooter';
+import Select from '../../Select';
+import BarChartWizard from '../AddWidgetModal/BarChartWizard';
+import LineChartWizard from '../AddWidgetModal/LineChartWizard';
+import TextWizard from '../AddWidgetModal/TextWizard';
 
 const typeOptions = {
   BarChart: { value: 'BarChart', label: 'Bar Chart' },

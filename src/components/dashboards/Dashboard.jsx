@@ -12,7 +12,6 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 /**
  * @typedef {import('react-grid-layout').Layout} Layout
  * @typedef {import('./types').DashboardSettings} DashboardSettings
- * @typedef {import('./types').WidgetsTypeToRendererMapper} WidgetsTypeToRendererMapper
  * @typedef {import('./types').OnChangeLayoutProps} OnChangeLayoutProps
  * @typedef {{
  *   data: Array<Layout>;
@@ -26,7 +25,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * @param {import('react').PropsWithChildren<DashboardProps>} props
  */
 export default function Dashboard(props) {
-  const { children, data, settings: settingsToMerge, onLayoutChange, className } = props;
+  const { data, settings: settingsToMerge, children, onLayoutChange, className } = props;
 
   useMemo(() => runValidationsOnData(data), [data]);
 

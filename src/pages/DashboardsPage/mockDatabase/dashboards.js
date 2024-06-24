@@ -1,5 +1,10 @@
 /**
  * @typedef {import('../../../components/dashboards/types').IDashboard} IDashboard
+ * @typedef {IDashboard & {
+ *   id: number | string;
+ *   title?: string;
+ *   createdAt?: string;
+ * }} IDashboardExtended
  */
 
 /**
@@ -46,7 +51,7 @@ const dashboardData = [
 ];
 
 /**
- * @type {Array<IDashboard>}
+ * @type {Array<IDashboardExtended>}
  */
 export const dashboards = [
   {

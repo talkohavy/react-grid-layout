@@ -17,7 +17,7 @@ export type DashboardMergedSettings = {
       breakpoints: any;
       compactType: 'vertical' | 'horizontal' | null;
       cols: any; // <--- defaults to 12. Number of columns in this layout.
-      margin: any; // <--- I once used this to give margin between widgets, but today I do that by putting a padding on the BaseWidget component.
+      margin: any; // <--- I once used this to give margin between widgets, but today I do that by putting a padding on the Widget component.
       containerPadding: any;
       rowHeight: number;
       resizeHandles: Array<'se' | 'sw' | 'ne' | 'nw' | 'n' | 's' | 'e' | 'w'>;
@@ -70,9 +70,6 @@ export type DashboardSettings = {
 };
 
 export type IDashboard = {
-  id: number | string;
-  title?: string;
-  createdAt?: string;
   settings?: DashboardSettings;
   /**
    * @description
@@ -84,11 +81,10 @@ export type IDashboard = {
 };
 
 export type IWidget = {
+  id?: string;
   type: string;
   props: any;
 };
-
-export type IWidgetLayout = IWidget & Layout;
 
 export type OnChangeLayoutProps = {
   newLayout: Array<Layout>;
@@ -96,12 +92,4 @@ export type OnChangeLayoutProps = {
   widgetAfter: Layout;
 };
 
-export type OnResizeOrDragStopProps = {
-  newLayout: Array<Layout>;
-  widgetBefore: Layout;
-  widgetAfter: Layout;
-};
-
-export type WidgetsTypeToRendererMapper = {
-  [type: string]: (props?: any) => JSX.Element;
-};
+export type OnResizeOrDragStopProps = OnChangeLayoutProps;

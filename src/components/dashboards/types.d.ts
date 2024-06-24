@@ -80,9 +80,9 @@ export type IDashboard = {
   data: Array<Layout>;
 };
 
-export type IWidget = {
+export type IWidget<T = string> = {
   id?: string;
-  type: string;
+  type: T;
   props: any;
 };
 

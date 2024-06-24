@@ -1,5 +1,10 @@
 .react-grid-item.react-draggable {
-  cursor: move;
+  cursor: grab;
+}
+
+.react-grid-item.react-grid-placeholder,
+.react-grid-layout .react-grid-item.react-draggable.react-draggable-dragging {
+  cursor: grabbing;
 }
 
 .react-resizable-handle.react-resizable-handle-se {

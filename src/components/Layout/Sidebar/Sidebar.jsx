@@ -10,7 +10,7 @@ export default function Sidebar() {
     <nav
       className={clsx(
         'relative flex h-full flex-col items-start justify-start bg-amber-50 p-10 shadow-md transition-all duration-300 dark:bg-slate-500',
-        isSidebarOpen ? 'w-xl' : 'w-4',
+        isSidebarOpen ? 'w-xs' : 'w-4',
       )}
     >
       <button

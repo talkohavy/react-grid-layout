@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Close } from '@radix-ui/react-dialog';
 
 /**
@@ -5,13 +6,14 @@ import { Close } from '@radix-ui/react-dialog';
  *   cancelText?: string,
  *   confirmText?: string,
  *   onConfirmClick?: () => void, onCancelClick?: () => void
+ *   className?: string,
  * }>} props
  */
 export default function ModalFooter(props) {
-  const { cancelText = 'Cancel', confirmText = 'Ok', onConfirmClick, onCancelClick } = props;
+  const { cancelText = 'Cancel', confirmText = 'Ok', onConfirmClick, onCancelClick, className } = props;
 
   return (
-    <div className='mt-6 flex justify-end gap-4'>
+    <div className={clsx('flex h-10 justify-end gap-4', className)}>
       <Close asChild>
         <button
           onClick={onCancelClick}

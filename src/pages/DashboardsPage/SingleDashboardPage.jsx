@@ -11,6 +11,10 @@ import { updateWidget } from '../../store/slices/dashboards/reducer';
 import { getDashboardDataSelector } from '../../store/slices/dashboards/selectors';
 import WidgetsPool from './WidgetsPool';
 
+/**
+ * @typedef {import('react-grid-layout').Layout} Layout
+ */
+
 export default function SingleDashboardPage() {
   const { id: dashboardId } = useParams();
 
@@ -27,7 +31,7 @@ export default function SingleDashboardPage() {
 
   if (!dashboard) return <div>Dashboard not found</div>;
 
-  const { id, data, title, settings: dashboardSettings } = dashboard;
+  const { id, data: widgets, title, settings: dashboardSettings } = dashboard;
 
   return (
     <div className='flex size-full flex-col items-center justify-start gap-4 overflow-auto p-4'>
@@ -47,18 +51,18 @@ export default function SingleDashboardPage() {
 
       <div className='flex size-full min-h-xl justify-between gap-4'>
         <Dashboard
-          data={data}
+          data={widgets}
           settings={dashboardSettings}
           onLayoutChange={({ newLayout }) => {
             dispatch(updateDashboardFlow({ id, layout: newLayout }));
           }}
         >
-          {data.map((widget) => {
+          {widgets.map((widget) => {
             const { i: widgetId, type, props } = widget;
 
             return (
               <div key={widgetId}>
-                <Widget gapBetweenWidgets={dashboardSettings.dashboard.gapBetweenWidgets}>
+                <Widget gapBetweenWidgets={dashboardSettings?.dashboard?.gapBetweenWidgets}>
                   {widgetsMapper[type]({ dashboardId, widgetId, onEditWidgetMenuItemClick, ...props })}
                 </Widget>
               </div>
@@ -72,7 +76,9 @@ export default function SingleDashboardPage() {
       <AddWidgetModal
         isModalOpen={isAddWidgetModalOpen}
         setIsModalOpen={setIsAddWidgetModalOpen}
-        onConfirmClick={(widget) => dispatch(createNewWidgetFlow({ dashboardId, widget }))}
+        onConfirmClick={(widget, layoutProps) =>
+          void dispatch(createNewWidgetFlow({ dashboardId, widget, layoutProps }))
+        }
       />
 
       {widgetIdToEdit && (

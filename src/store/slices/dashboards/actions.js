@@ -4,6 +4,7 @@ import { name } from './reducer';
 
 /**
  * @typedef {import('../../../components/dashboards/types').IWidget} IWidget
+ * @typedef {import('../../../components/dashboards/types').LayoutProps} LayoutProps
  */
 
 const customActionString = (actionString) => createActionString({ prefix: name, actionString });
@@ -22,7 +23,7 @@ const removeWidgetFromDashboardFlow = createAction(
 
 const createNewWidgetFlow = createAction(
   customActionString('Create new Widget'),
-  /** @param {{dashboardId: string, widget: IWidget}} payload */
+  /** @param {{dashboardId: string, widget: IWidget, layoutProps?: LayoutProps}} payload */
   (payload) => ({ payload }),
 );
 

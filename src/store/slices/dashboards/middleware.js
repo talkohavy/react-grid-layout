@@ -42,13 +42,13 @@ const dashboardsMiddleware = createMiddleware({
     }
 
     if (createNewWidgetFlow.match(action)) {
-      const { dashboardId, widget: widgetRaw } = action.payload;
+      const { dashboardId, widget: widgetRaw, layoutProps } = action.payload;
 
       const newWidget = { id: uuid(), ...widgetRaw };
 
       dispatch(addWidgetToWidgetsPool({ widget: newWidget }));
 
-      const newWidgetLayout = createNewWidgetLayout({ id: newWidget.id });
+      const newWidgetLayout = createNewWidgetLayout({ id: newWidget.id, layoutProps });
 
       dispatch(addWidgetToDashboard({ dashboardId, widget: newWidgetLayout }));
 

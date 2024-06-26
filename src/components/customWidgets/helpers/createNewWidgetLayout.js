@@ -1,8 +1,12 @@
 import { v4 as uuid } from 'uuid';
 
 /**
- * @typedef {{id?: string}} CreateNewWidgetLayoutProps
  * @typedef {import('react-grid-layout').Layout} Layout
+ * @typedef {import('../../dashboards/types').LayoutProps} LayoutProps
+ * @typedef {{
+ *   id?: string,
+ *   layoutProps?: LayoutProps
+ * }} CreateNewWidgetLayoutProps
  */
 
 /**
@@ -10,15 +14,15 @@ import { v4 as uuid } from 'uuid';
  * @returns {Layout}
  */
 function createNewWidgetLayout(props) {
-  const { id } = props ?? {};
+  const { id, layoutProps } = props ?? {};
 
   return {
     i: id ?? uuid(),
-    isResizable: false,
     w: 4,
     h: 3,
     x: 0,
     y: 0,
+    ...layoutProps,
   };
 }
 

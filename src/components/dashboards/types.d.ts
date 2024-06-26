@@ -86,6 +86,8 @@ export type IWidget<T = string> = {
   props: any;
 };
 
+export type LayoutProps = Partial<Omit<Layout, 'i'>>;
+
 export type OnChangeLayoutProps = {
   newLayout: Array<Layout>;
   widgetBefore: Layout;

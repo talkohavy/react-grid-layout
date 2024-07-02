@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
 import { DASHBOARD_DEFAULT_LINES_COLOR } from '../constants';
 
-/**
- * @param {{
- *   horizontalLinesCount: number,
- *   rowHeight: number,
- *   color: string
- * }} props
- */
-export default function HorizontalLines({ horizontalLinesCount, rowHeight, color }) {
+type HorizontalLinesProps = {
+  horizontalLinesCount: number;
+  rowHeight: number;
+  color: string;
+};
+
+export default function HorizontalLines(props: HorizontalLinesProps) {
+  const { horizontalLinesCount, rowHeight, color } = props;
+
   const horizontalLines = useMemo(() => {
     const howManyLines = Math.max(0, horizontalLinesCount - 1);
 

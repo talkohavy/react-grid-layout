@@ -1,16 +1,12 @@
+import type { PropsWithChildren } from 'react';
 import clsx from 'clsx';
 
-/**
- * @typedef {import('react').PropsWithChildren<{
- * className?: string;
- * style: any;
- * }>} DashboardCardProps
- */
+type DashboardCardProps = PropsWithChildren<{
+  className?: string;
+  style: any;
+}>;
 
-/**
- * @param {DashboardCardProps} props
- */
-export default function DashboardWrapper(props) {
+export default function DashboardWrapper(props: DashboardCardProps) {
   const { className, style, children } = props;
 
   return (

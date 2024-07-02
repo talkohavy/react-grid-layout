@@ -1,12 +1,12 @@
+import type { PropsWithChildren } from 'react';
 import clsx from 'clsx';
 
-/**
- * @param {import('react').PropsWithChildren<{
- *   className?: string,
- *   style?: any
- * }>} props
- */
-export default function Undraggable(props) {
+type UndraggableProps = PropsWithChildren<{
+  className?: string;
+  style?: any;
+}>;
+
+export default function Undraggable(props: UndraggableProps) {
   const { children, className, style } = props;
 
   return (

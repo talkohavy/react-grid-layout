@@ -1,7 +1,15 @@
 import { useMemo } from 'react';
 import { DASHBOARD_DEFAULT_LINES_COLOR } from '../constants';
 
-export default function VerticalLines({ verticalLinesCount, height, color = 'black' }) {
+type VerticalLinesProps = {
+  verticalLinesCount: number;
+  height: number;
+  color: string;
+};
+
+export default function VerticalLines(props: VerticalLinesProps) {
+  const { verticalLinesCount, height, color = 'black' } = props;
+
   const verticalLines = useMemo(() => Array.from(Array(verticalLinesCount).keys()), [verticalLinesCount]);
 
   return (

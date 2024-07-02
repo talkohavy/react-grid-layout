@@ -173,5 +173,6 @@
   "css.lint.emptyRules": "ignore",
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features" // <--- i'm using prettier formatter instead of this, but also does an ok job.
-  }
+  },
+  "editor.defaultFormatter": "biomejs.biome"
 }

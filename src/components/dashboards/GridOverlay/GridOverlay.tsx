@@ -1,7 +1,17 @@
 import HorizontalLines from './HorizontalLines';
 import VerticalLines from './VerticalLines';
 
-export default function GridOverlay({ horizontalLinesCount, verticalLinesCount, rowHeight, height, color }) {
+type GridOverlayProps = {
+  horizontalLinesCount: number;
+  verticalLinesCount: number;
+  rowHeight: number;
+  height: number;
+  color: string;
+};
+
+export default function GridOverlay(props: GridOverlayProps) {
+  const { horizontalLinesCount, verticalLinesCount, rowHeight, height, color } = props;
+
   return (
     <>
       <VerticalLines verticalLinesCount={verticalLinesCount} height={height} color={color} />

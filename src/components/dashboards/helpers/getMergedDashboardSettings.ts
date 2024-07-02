@@ -6,19 +6,13 @@ import {
   DASHBOARD_DEFAULT_LINES_COLOR,
   DASHBOARD_DEFAULT_ROW_HEIGHT,
 } from '../constants';
+import type { DashboardMergedSettings, DashboardSettings } from '../types';
 
-/**
- * @typedef {import('../types').DashboardSettings} DashboardSettings
- * @typedef {import('../types').DashboardMergedSettings} DashboardMergedSettings
- */
+type getMergedDashboardSettingsProps = {
+  settingsToMerge?: DashboardSettings;
+};
 
-/**
- * @param {{
- *   settingsToMerge: DashboardSettings
- * }} props
- * @returns {DashboardMergedSettings}
- */
-function getMergedDashboardSettings(props) {
+function getMergedDashboardSettings(props: getMergedDashboardSettingsProps): DashboardMergedSettings {
   const { settingsToMerge } = props;
   const { dashboard, grid } = settingsToMerge ?? {};
 
@@ -39,7 +33,7 @@ function getMergedDashboardSettings(props) {
         // dynamic values:
         isBounded: dashboard?.isBounded ?? false,
         allowOverlap: dashboard?.allowOverlap ?? false,
-        compactType: COMPACT_TYPE[dashboard?.floatType ?? 'to-top'],
+        compactType: COMPACT_TYPE[dashboard?.floatType ?? 'to-top'] as any,
         cols: { lg: columnsCount },
         rowHeight: grid?.rowHeight ?? DASHBOARD_DEFAULT_ROW_HEIGHT, // <--- if `undefined` (which currently is impossible), react-grid-layout defaults to 150
         // fixed values:

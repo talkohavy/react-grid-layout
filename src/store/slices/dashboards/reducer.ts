@@ -81,7 +81,9 @@ const dashboardsSlice = createSlice({
     updateDashboardLayout: (state, action) => {
       const { id, layout } = action.payload;
 
-      const dashboardToUpdate = state.dashboards.find((currentDashboard) => currentDashboard.id === id);
+      const dashboardToUpdate = state.dashboards.find(
+        (currentDashboard) => currentDashboard.id.toString() === id.toString(),
+      );
 
       dashboardToUpdate.data = layout;
     },

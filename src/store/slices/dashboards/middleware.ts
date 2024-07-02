@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { isEmpty } from '@talkohavy/lodash';
 import { createNewWidgetLayout } from '../../../components/customWidgets/helpers';
 import { toastError } from '../../../toaster';
 import { createMiddleware } from '../../helpers/createMiddleware';
@@ -8,6 +9,7 @@ import {
   deleteWidgetFromWidgetsPoolFlow,
   removeWidgetFromDashboardFlow,
   updateDashboardFlow,
+  updateWidgetFlow,
 } from './actions';
 import {
   addWidgetToDashboard,
@@ -16,8 +18,9 @@ import {
   name,
   removeWidgetFromDashboard,
   updateDashboardLayout,
+  updateWidget,
 } from './reducer';
-import { allDashboardsSelector, allWidgetsSelector } from './selectors';
+import { allDashboardsSelector, allWidgetsSelector, getDashboardByIdSelector } from './selectors';
 
 /** @param {{ axiosInstance: import('axios').AxiosInstance }} props */
 const dashboardsMiddleware = createMiddleware({
@@ -83,6 +86,24 @@ const dashboardsMiddleware = createMiddleware({
         toastError('Cannot delete widget that is being used on a dashboard');
       } else {
         dispatch(deleteWidgetFromWidgetsPool({ id: widgetId }));
+      }
+    }
+
+    if (updateWidgetFlow.match(action)) {
+      const { dashboardId, widgetId, type, props, layoutProps } = action.payload;
+
+      dispatch(updateWidget({ widgetId, type, props }));
+
+      if (!isEmpty(layoutProps)) {
+        const dashboardToUpdate = structuredClone(getDashboardByIdSelector(dashboardId)(getState()));
+
+        dashboardToUpdate.data = dashboardToUpdate.data.map((widget) => {
+          if (widgetId === widget.i) return { ...widget, ...layoutProps };
+
+          return widget;
+        });
+
+        dispatch(updateDashboardFlow({ id: dashboardId, layout: dashboardToUpdate.data }));
       }
     }
   },

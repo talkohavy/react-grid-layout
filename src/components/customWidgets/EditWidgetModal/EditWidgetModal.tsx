@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Title } from '@radix-ui/react-dialog';
-import { getWidgetByIdSelector } from '../../../store/slices/dashboards/selectors';
+import { getDashboardByIdSelector, getWidgetByIdSelector } from '../../../store/slices/dashboards/selectors';
 import Checkbox from '../../Checkbox';
 import Modal from '../../Modal';
 import ModalFooter from '../../Modal/ModalFooter';
@@ -33,6 +33,7 @@ const WIZARD_BY_TYPE = {
  * @param {{
  *   isModalOpen: boolean,
  *   setIsModalOpen: (value: boolean) => void,
+ *   dashboardId: string,
  *   widgetId: string,
  *   onConfirmClick: (widget: IWidget, layoutProps?: LayoutProps) => void
  *   onCancelClick?: () => void,
@@ -40,15 +41,18 @@ const WIZARD_BY_TYPE = {
  * }} props
  */
 export default function EditWidgetModal(props) {
-  const { widgetId, isModalOpen, setIsModalOpen, onCancelClick, onConfirmClick, onClose } = props;
+  const { dashboardId, widgetId, isModalOpen, setIsModalOpen, onCancelClick, onConfirmClick, onClose } = props;
 
   const widgetToEdit = useSelector(getWidgetByIdSelector(widgetId));
+  const widgetLayoutToEdit = useSelector(getDashboardByIdSelector(dashboardId)).data.find(
+    (widget) => widget.i === widgetId,
+  );
 
   const [typeOption, setTypeOption] = useState(typeOptions[widgetToEdit?.type] ?? typeOptions.Text);
   const widgetProps = useRef(widgetToEdit.props);
-  const [isStatic, setIsStatic] = useState(false);
-  const [isResizable, setIsResizable] = useState(false);
-  const [isDraggable, setIsDraggable] = useState(false);
+  const [isStatic, setIsStatic] = useState(widgetLayoutToEdit.static ?? false);
+  const [isResizable, setIsResizable] = useState(widgetLayoutToEdit.isResizable ?? false);
+  const [isDraggable, setIsDraggable] = useState(widgetLayoutToEdit.isDraggable ?? false);
 
   const handleConfirmClick = () => {
     /** @type {LayoutProps} */

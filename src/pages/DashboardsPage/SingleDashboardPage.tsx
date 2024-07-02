@@ -6,8 +6,7 @@ import EditWidgetModal from '../../components/customWidgets/EditWidgetModal';
 import { widgetsMapper } from '../../components/customWidgets/widgetsMapper';
 import Dashboard from '../../components/dashboards/Dashboard';
 import Widget from '../../components/dashboards/Widget';
-import { createNewWidgetFlow, updateDashboardFlow } from '../../store/slices/dashboards';
-import { updateWidget } from '../../store/slices/dashboards/reducer';
+import { createNewWidgetFlow, updateDashboardFlow, updateWidgetFlow } from '../../store/slices/dashboards';
 import { getDashboardDataSelector } from '../../store/slices/dashboards/selectors';
 import WidgetsPool from './WidgetsPool';
 
@@ -85,14 +84,12 @@ export default function SingleDashboardPage() {
         <EditWidgetModal
           isModalOpen={isEditWidgetModalOpen}
           setIsModalOpen={setIsEditWidgetModalOpen}
+          dashboardId={dashboardId}
           widgetId={widgetIdToEdit}
           onClose={() => setWidgetIdToEdit(null)}
-          onConfirmClick={
-            /** @param {{type: string, props: any}} widget */
-            ({ type, props }) => {
-              dispatch(updateWidget({ widgetId: widgetIdToEdit, type, props }));
-            }
-          }
+          onConfirmClick={({ type, props }, layoutProps) => {
+            dispatch(updateWidgetFlow({ dashboardId, widgetId: widgetIdToEdit, type, props, layoutProps }));
+          }}
         />
       )}
     </div>

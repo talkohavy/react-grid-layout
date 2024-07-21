@@ -79,19 +79,12 @@ export default function Dashboard(props: DashboardProps) {
   const onDragCalculateVerticalGridLinesHeight = (newLayout: Array<Layout>) => {
     const rowHeight = settings.dashboard.props.rowHeight ?? DASHBOARD_DEFAULT_ROW_HEIGHT;
 
-    const maxHeight = newLayout.reduce(
-      /**
-       * @param {number} maxHeight
-       * @param {Layout} currentWidget
-       */
-      (maxHeight, currentWidget) => {
-        const currentWidgetHeight = currentWidget.y + currentWidget.h;
-        if (maxHeight < currentWidgetHeight) return currentWidgetHeight;
+    const maxHeight = newLayout.reduce((maxHeight: number, currentWidget: Layout) => {
+      const currentWidgetHeight = currentWidget.y + currentWidget.h;
+      if (maxHeight < currentWidgetHeight) return currentWidgetHeight;
 
-        return maxHeight;
-      },
-      0,
-    );
+      return maxHeight;
+    }, 0);
 
     // Step 1: calculate verticalLine height
     const heightOfDashboardBoxWrapper = dashboardRef.current.clientHeight;
@@ -129,34 +122,18 @@ export default function Dashboard(props: DashboardProps) {
           draggableCancel='.do-not-drag-me' // <--- A CSS selector for tags that will not be draggable. If you forget the leading . it will not work. .react-resizable-handle is always prepended to this value.
           layouts={{ lg: data }}
           {...settings.dashboard.props}
-          /**
-           * @param {Array<Layout>} newLayout
-           */
-          onDragStart={(newLayout) => {
+          onDragStart={(newLayout: Array<Layout>) => {
             onResizeOrDragStart();
             onDragCalculateVerticalGridLinesHeight(newLayout);
           }}
-          /**
-           * @param {Array<Layout>} newLayout
-           */
-          onResizeStart={(newLayout) => {
+          onResizeStart={(newLayout: Array<Layout>) => {
             onResizeOrDragStart();
             onDragCalculateVerticalGridLinesHeight(newLayout);
           }}
-          /**
-           * @param {Array<Layout>} newLayout
-           * @param {Layout} widgetBefore
-           * @param {Layout} widgetAfter
-           */
-          onDragStop={(newLayout, widgetBefore, widgetAfter) => {
+          onDragStop={(newLayout: Array<Layout>, widgetBefore: Layout, widgetAfter: Layout) => {
             onResizeOrDragStop({ newLayout, widgetBefore, widgetAfter });
           }}
-          /**
-           * @param {Array<Layout>} newLayout
-           * @param {Layout} widgetBefore
-           * @param {Layout} widgetAfter
-           */
-          onResizeStop={(newLayout, widgetBefore, widgetAfter) => {
+          onResizeStop={(newLayout: Array<Layout>, widgetBefore: Layout, widgetAfter: Layout) => {
             onResizeOrDragStop({ newLayout, widgetBefore, widgetAfter });
             onDragCalculateVerticalGridLinesHeight(newLayout);
           }}

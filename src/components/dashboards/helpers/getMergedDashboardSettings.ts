@@ -4,6 +4,7 @@ import {
   DASHBOARD_DEFAULT_COLUMN_COUNT,
   DASHBOARD_DEFAULT_GAP_BETWEEN_WIDGETS,
   DASHBOARD_DEFAULT_LINES_COLOR,
+  DASHBOARD_DEFAULT_RESIZE_HANDLERS,
   DASHBOARD_DEFAULT_ROW_HEIGHT,
 } from '../constants';
 import type { DashboardMergedSettings, DashboardSettings } from '../types';
@@ -14,7 +15,7 @@ type getMergedDashboardSettingsProps = {
 
 function getMergedDashboardSettings(props: getMergedDashboardSettingsProps): DashboardMergedSettings {
   const { settingsToMerge } = props;
-  const { dashboard, grid } = settingsToMerge ?? {};
+  const { dashboard, grid, widgets } = settingsToMerge ?? {};
 
   const columnsCount = grid?.columnCount ?? DASHBOARD_DEFAULT_COLUMN_COUNT;
 
@@ -40,7 +41,7 @@ function getMergedDashboardSettings(props: getMergedDashboardSettingsProps): Das
         breakpoints: { lg: DASHBOARD_DEFAULT_BREAKPOINT_SIZES.lg },
         margin: { lg: [0, 0] },
         containerPadding: [0, 0],
-        resizeHandles: ['se', 'sw'],
+        resizeHandles: widgets?.axisHandlerPositions ?? DASHBOARD_DEFAULT_RESIZE_HANDLERS, // Options are: 'se', 'sw', 'ne', 'nw', 'n', 's', 'e', 'w'
       },
     },
   };

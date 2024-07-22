@@ -207,6 +207,7 @@ module.exports = {
         0.5: '0.5px',
         1: '1px',
         1.5: '1.5px',
+        16: '16px',
       },
       borderRadius: {
         '4xl': '2rem', // use like so: rounded-4xl

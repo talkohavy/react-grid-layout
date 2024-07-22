@@ -67,7 +67,15 @@ export type DashboardSettings = {
      */
     allowOverlap?: boolean;
   };
+  widgets?: {
+    /**
+     * @default ['se']
+     */
+    axisHandlerPositions?: Array<HandlerPositions>;
+  };
 };
+
+export type HandlerPositions = 'se' | 'sw' | 'ne' | 'nw' | 'n' | 's' | 'e' | 'w';
 
 export type IDashboard = {
   settings?: DashboardSettings;

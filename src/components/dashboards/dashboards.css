@@ -1,3 +1,97 @@
+.react-resizable-handle {
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  opacity: 0;
+}
+
+.react-grid-item .fake-resizable-handle {
+  visibility: hidden;
+}
+
+.react-grid-item:not(.static):hover .fake-resizable-handle {
+  visibility: visible;
+}
+
+.react-grid-item:has(.react-resizable-handle-n:hover) .fake-resizable-handle-n,
+.react-grid-item:has(.react-resizable-handle-e:hover) .fake-resizable-handle-e,
+.react-grid-item:has(.react-resizable-handle-s:hover) .fake-resizable-handle-s,
+.react-grid-item:has(.react-resizable-handle-w:hover) .fake-resizable-handle-w,
+.react-grid-item:has(.react-resizable-handle-se:hover) .fake-resizable-handle-se,
+.react-grid-item:has(.react-resizable-handle-sw:hover) .fake-resizable-handle-sw,
+.react-grid-item:has(.react-resizable-handle-ne:hover) .fake-resizable-handle-ne,
+.react-grid-item:has(.react-resizable-handle-nw:hover) .fake-resizable-handle-nw {
+  border-bottom-color: rgb(96, 96, 96);
+}
+
+.handle-n {
+  top: 0;
+  left: 50%;
+  border-bottom: 15px solid rgb(177, 177, 177);
+  border-left: 15px solid #0000;
+  transform: translateX(-50%) rotateZ(225deg);
+  cursor: s-resize;
+}
+
+.handle-e {
+  top: 50%;
+  right: 0;
+  border-bottom: 15px solid rgb(177, 177, 177);
+  border-left: 15px solid #0000;
+  transform: translateY(-50%) rotateZ(-45deg);
+  cursor: s-resize;
+}
+
+.handle-s {
+  bottom: 0;
+  left: 50%;
+  border-bottom: 15px solid rgb(177, 177, 177);
+  border-left: 15px solid #0000;
+  transform: translateX(-50%) rotateZ(45deg);
+  cursor: s-resize;
+}
+
+.handle-w {
+  top: 50%;
+  left: 0;
+  border-bottom: 15px solid rgb(177, 177, 177);
+  border-right: 15px solid #0000;
+  transform: translateY(-50%) rotateZ(45deg);
+  cursor: s-resize;
+}
+
+.handle-se {
+  right: 0;
+  bottom: 0;
+  border-bottom: 15px solid rgb(177, 177, 177);
+  border-left: 15px solid #0000;
+  cursor: nwse-resize;
+}
+
+.handle-sw {
+  left: 0;
+  bottom: 0;
+  border-bottom: 15px solid rgb(177, 177, 177);
+  border-right: 15px solid #0000;
+  cursor: nesw-resize;
+}
+
+.handle-ne {
+  right: 0;
+  top: 0;
+  border-top: 15px solid rgb(177, 177, 177);
+  border-left: 15px solid #0000;
+  cursor: nesw-resize;
+}
+
+.handle-nw {
+  left: 0;
+  top: 0;
+  border-top: 15px solid rgb(177, 177, 177);
+  border-right: 15px solid #0000;
+  cursor: nesw-resize;
+}
+
 .react-grid-item.react-draggable {
   cursor: grab;
 }

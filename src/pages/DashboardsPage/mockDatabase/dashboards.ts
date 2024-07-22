@@ -19,8 +19,8 @@ const dashboardData = [
     w: 6,
     h: 2,
     x: 9,
-    y: 0,
-    static: false,
+    y: 2,
+    static: true,
   },
   // ------------------
   // Widget 2: BarChart

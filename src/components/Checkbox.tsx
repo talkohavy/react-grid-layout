@@ -9,7 +9,6 @@ export default function Checkbox({ isChecked, setIsChecked, label }) {
           // value={isChecked} // <--- apparently you don't need value in a checkbox
           checked={!!isChecked}
           onChange={() => setIsChecked(!isChecked)}
-          // eslint-disable-next-line
           className={clsx(isChecked && 'checked', 'size-0 opacity-0')}
         />
 

@@ -174,5 +174,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features" // <--- i'm using prettier formatter instead of this, but also does an ok job.
   },
-  "editor.defaultFormatter": "biomejs.biome"
+  "editor.defaultFormatter": "biomejs.biome",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

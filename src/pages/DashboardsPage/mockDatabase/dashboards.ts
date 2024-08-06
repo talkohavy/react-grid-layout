@@ -66,7 +66,6 @@ export const dashboards = [
         // alwaysVisible: true,
       },
       dashboard: {
-        gapBetweenWidgets: 0,
         gapFromWalls: 0,
         // allowOverlap: true,
         floatType: 'free-form',
@@ -83,7 +82,6 @@ export const dashboards = [
         alwaysVisible: true,
       },
       dashboard: {
-        gapBetweenWidgets: 5,
         gapFromWalls: 4,
         // allowOverlap: true,
         // floatType: 'free-form',

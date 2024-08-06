@@ -9,7 +9,6 @@ export type DashboardMergedSettings = {
     };
   };
   dashboard: {
-    gapBetweenWidgets: number;
     gapFromWalls: number;
     props: {
       isBounded: boolean;
@@ -49,10 +48,6 @@ export type DashboardSettings = {
      * @default false
      */
     isBounded?: boolean;
-    /**
-     * @default 10
-     */
-    gapBetweenWidgets?: number; // <--- when you change this, you'll need to manually change dashboard.css to position the drag/resize handlers.
     /**
      * @default 10
      */

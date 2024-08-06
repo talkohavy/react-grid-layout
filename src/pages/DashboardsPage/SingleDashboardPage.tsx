@@ -10,6 +10,8 @@ import { createNewWidgetFlow, updateDashboardFlow, updateWidgetFlow } from '../.
 import { getDashboardDataSelector } from '../../store/slices/dashboards/selectors';
 import WidgetsPool from './WidgetsPool';
 
+const gapBetweenWidgets = 10;
+
 /**
  * @typedef {import('react-grid-layout').Layout} Layout
  */
@@ -61,7 +63,7 @@ export default function SingleDashboardPage() {
 
             return (
               <div key={widgetId}>
-                <Widget gapBetweenWidgets={dashboardSettings?.dashboard?.gapBetweenWidgets}>
+                <Widget gapBetweenWidgets={gapBetweenWidgets}>
                   {widgetsMapper[type]({ dashboardId, widgetId, onEditWidgetMenuItemClick, ...props })}
                 </Widget>
               </div>

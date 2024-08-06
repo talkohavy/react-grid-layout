@@ -2,7 +2,7 @@ import {
   COMPACT_TYPE,
   DASHBOARD_DEFAULT_BREAKPOINT_SIZES,
   DASHBOARD_DEFAULT_COLUMN_COUNT,
-  DASHBOARD_DEFAULT_GAP_BETWEEN_WIDGETS,
+  DASHBOARD_DEFAULT_GAP_FROM_WALLS,
   DASHBOARD_DEFAULT_LINES_COLOR,
   DASHBOARD_DEFAULT_RESIZE_HANDLERS,
   DASHBOARD_DEFAULT_ROW_HEIGHT,
@@ -28,8 +28,7 @@ function getMergedDashboardSettings(props: getMergedDashboardSettingsProps): Das
       },
     },
     dashboard: {
-      gapBetweenWidgets: dashboard?.gapBetweenWidgets ?? DASHBOARD_DEFAULT_GAP_BETWEEN_WIDGETS,
-      gapFromWalls: dashboard?.gapFromWalls ?? DASHBOARD_DEFAULT_GAP_BETWEEN_WIDGETS,
+      gapFromWalls: dashboard?.gapFromWalls ?? DASHBOARD_DEFAULT_GAP_FROM_WALLS,
       props: {
         // dynamic values:
         isBounded: dashboard?.isBounded ?? false,
